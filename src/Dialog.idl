@@ -1,0 +1,35 @@
+namespace SprasePackageRegisterUWP
+{
+    [default_interface]
+    runtimeclass Dialog : Windows.UI.Xaml.Controls.ContentDialog, Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        Dialog();
+
+        Boolean Show(String name);
+
+        void SetDefaultButton();
+        void SetDefaultButton(Windows.UI.Xaml.Controls.ContentDialogButton Button);
+
+        Windows.Foundation.IAsyncOperation<Windows.UI.Xaml.Controls.ContentDialogResult> ShowInf(String v_Inf, String v_PrimaryButton);
+        Windows.Foundation.IAsyncOperation<Windows.UI.Xaml.Controls.ContentDialogResult> ShowInf(String v_Inf, String v_PrimaryButton, String v_CloseButton);
+        Windows.Foundation.IAsyncOperation<Windows.UI.Xaml.Controls.ContentDialogResult> ShowInf(String v_Inf, String v_PrimaryButton, String  v_CloseButton, Windows.UI.Xaml.Controls.ContentDialogButton DefaultButton);
+        Windows.Foundation.IAsyncOperation<Windows.UI.Xaml.Controls.ContentDialogResult> ShowError(String v_ErrorInf);
+        Windows.Foundation.IAsyncOperation<Windows.UI.Xaml.Controls.ContentDialogResult> ShowError(String v_ErrorInf, String v_ErrorHeader);
+        Windows.Foundation.IAsyncOperation<Windows.UI.Xaml.Controls.ContentDialogResult> ShowStatus(Windows.UI.Xaml.Controls.ContentDialogButton DefaultButton);
+        void Reset(); void ResetContent();
+
+        String Glyph{ get; set; };
+        String Text{ get; set; };
+
+        Double Progress{ get; set; };
+        Boolean IsIndeterminate{ get; set; };
+        String Status{ get; set; };
+
+        String Inf{ get; set; };
+
+        String ErrorInf{ get; set; };
+        String ErrorHeader{ get; set; };
+
+        event Windows.Foundation.TypedEventHandler<Dialog, IInspectable> ChangeStatus;
+    }
+}

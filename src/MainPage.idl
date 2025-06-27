@@ -1,0 +1,12 @@
+namespace SprasePackageRegisterUWP
+{
+    [default_interface]
+    runtimeclass MainPage : Windows.UI.Xaml.Controls.Page
+    {
+        MainPage();
+        String AppName{ get; };
+        Windows.Foundation.Uri AppIcon { get; };
+        String Developer{ get; };
+        String Version{ get; };
+    }
+}
