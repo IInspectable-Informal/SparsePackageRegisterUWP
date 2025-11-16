@@ -1,0 +1,7 @@
+namespace SparsePackageManager
+{
+    interface ITypeProvider
+    {
+        Windows.UI.Xaml.Interop.TypeName Type{ get; };
+    }
+}

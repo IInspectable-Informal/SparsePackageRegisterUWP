@@ -1,0 +1,69 @@
+<Page 
+    x:Class="SparsePackageManager.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SparsePackageManager"
+    xmlns:localc="using:SparsePackageManager.Controls"
+    xmlns:localp="using:SparsePackageManager.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    NavigationCacheMode="Required">
+
+    <ScrollViewer Padding="36,12">
+        <StackPanel Spacing="8">
+            <StackPanel.ChildrenTransitions>
+                <EntranceThemeTransition FromVerticalOffset="100" IsStaggeringEnabled="True"/>
+                <RepositionThemeTransition IsStaggeringEnabled="True"/>
+            </StackPanel.ChildrenTransitions>
+            <localc:SettingItem x:Uid="AppTheme">
+                <localc:SettingItem.Icon>
+                    <FontIcon Glyph="&#xE790;"/>
+                </localc:SettingItem.Icon>
+                <ComboBox SelectionChanged="AppThemeChanged" Loaded="ThemeSelectionLoaded">
+                    <ComboBoxItem x:Uid="ThemeLight"/>
+                    <ComboBoxItem x:Uid="ThemeDark"/>
+                    <ComboBoxItem x:Uid="ThemeSystem"/>
+                </ComboBox>
+            </localc:SettingItem>
+            <localc:SettingItem x:Uid="NavStyle">
+                <localc:SettingItem.Icon>
+                    <FontIcon Glyph="&#xF594;"/>
+                </localc:SettingItem.Icon>
+                <ComboBox SelectionChanged="NavStyleChanged" Loaded="NavStyleLoaded">
+                    <ComboBoxItem x:Uid="StyleLeft"/>
+                    <ComboBoxItem x:Uid="StyleTop"/>
+                </ComboBox>
+            </localc:SettingItem>
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <muxc:Expander.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon Glyph="&#xE946;"/>
+                        <TextBlock x:Uid="AboutApp" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </muxc:Expander.Header>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="32" Spacing="8" HorizontalAlignment="Stretch">
+                        <FontIcon Glyph="&#xE74C;"/>
+                        <TextBlock x:Uid="AppDisplayName" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind local:RootContainer.AppName}" TextWrapping="Wrap" 
+                                   VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="32" Spacing="8" HorizontalAlignment="Stretch">
+                        <FontIcon Glyph="&#xE77B;"/>
+                        <TextBlock x:Uid="Developer" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind local:RootContainer.Developer}" TextWrapping="Wrap" 
+                                   VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="32" Spacing="8" HorizontalAlignment="Stretch">
+                        <FontIcon Glyph="&#xE73A;"/>
+                        <TextBlock x:Uid="Version" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind local:RootContainer.Version}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </muxc:Expander>
+        </StackPanel>
+    </ScrollViewer>
+
+</Page>

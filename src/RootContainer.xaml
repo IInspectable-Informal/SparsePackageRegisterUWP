@@ -1,0 +1,57 @@
+<Grid 
+    x:Class="SparsePackageManager.RootContainer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SparsePackageManager"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    ActualThemeChanged="ThemeChanged">
+
+    <Grid.Resources>
+        <ResourceDictionary>
+            <Thickness x:Key="NavigationViewHeaderMargin">36,0,0,0</Thickness>
+            <Thickness x:Key="NavigationViewMinimalHeaderMargin">-44,0,0,0</Thickness>
+            <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+            <Thickness x:Key="NavigationViewMinimalContentMargin">0,48,0,0</Thickness>
+        </ResourceDictionary>
+    </Grid.Resources>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition x:Name="LeftPlaceholder" Width="48"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+
+    <muxc:NavigationView x:Name="RootNavigationView" PaneDisplayMode="Auto" IsTitleBarAutoPaddingEnabled="False" AlwaysShowHeader="True"
+                         ItemInvoked="NavigationRequested" SelectionChanged="SelectedViewItemChanged" BackRequested="GoBackRequested"
+                         DisplayModeChanged="NavViewDisplayModeChanged"
+                         Grid.ColumnSpan="3"
+                         muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+        <muxc:NavigationView.MenuItems>
+            <muxc:NavigationViewItem x:Uid="RegisterPage">
+                <muxc:NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE90F;"/>
+                </muxc:NavigationViewItem.Icon>
+            </muxc:NavigationViewItem>
+            <muxc:NavigationViewItem x:Uid="PackageListPage">
+                <muxc:NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE71D;"/>
+                </muxc:NavigationViewItem.Icon>
+            </muxc:NavigationViewItem>
+        </muxc:NavigationView.MenuItems>
+        <Frame x:Name="rootFrame" Navigated="FrameNavigated"/>
+    </muxc:NavigationView>
+    <ContentPresenter x:Name="TitleBar" Background="Transparent" VerticalAlignment="Top" Loaded="OnTitleBarLoaded" Grid.Column="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Margin="8,4" Height="24" Source="Assets\AppIcons\Square44x44Logo.png"/>
+            <TextBlock Text="{x:Bind local:RootContainer.AppName}" VerticalAlignment="Center" Grid.Column="1"/>
+        </Grid>
+    </ContentPresenter>
+
+</Grid>

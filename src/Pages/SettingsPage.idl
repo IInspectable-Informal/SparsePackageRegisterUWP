@@ -1,0 +1,10 @@
+import "ITypeProvider.idl";
+
+namespace SparsePackageManager.Pages
+{
+    [default_interface]
+    runtimeclass SettingsPage : Windows.UI.Xaml.Controls.Page , SparsePackageManager.ITypeProvider
+    {
+        SettingsPage();
+    }
+}

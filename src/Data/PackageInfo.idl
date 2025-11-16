@@ -1,0 +1,21 @@
+namespace SparsePackageManager.Data
+{
+    [default_interface]
+    runtimeclass PackageInfo
+    {
+        String DisplayName{ get; };
+        String Developer{ get; };
+        Windows.Foundation.DateTime InstalledDate{ get; };
+        String ExternalPath{ get; };
+        String PackageFullName{ get; };
+        String UserExternalPath{ get; };
+        String MachineExternalPath{ get; };
+        Windows.UI.Xaml.Media.ImageSource Logo{ get; };
+        Windows.Storage.StorageFile Manifest{ get; };
+        Windows.Storage.StorageFolder ExternalLocation{ get; };
+
+        String GetDeveloperAndInstalledDateCombination();
+
+        static Windows.Foundation.IAsyncOperation<PackageInfo> CreateInstanceAsync(Windows.ApplicationModel.Package package);
+    }
+}

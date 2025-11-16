@@ -1,0 +1,14 @@
+namespace SparsePackageManager.Controls
+{
+    [default_interface]
+    runtimeclass SettingItem : Windows.UI.Xaml.Controls.ContentControl
+    {
+        SettingItem();
+
+        Windows.UI.Xaml.Controls.IconElement Icon{ get; set; };
+        Object Header{ get; set; };
+
+        static Windows.UI.Xaml.DependencyProperty IconProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty HeaderProperty{ get; };
+    }
+}

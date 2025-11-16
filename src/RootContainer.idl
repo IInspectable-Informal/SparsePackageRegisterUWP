@@ -1,0 +1,16 @@
+namespace SparsePackageManager
+{
+    [default_interface]
+    runtimeclass RootContainer : Windows.UI.Xaml.Controls.Grid
+    {
+        Boolean IsPaneOnTop{ get; set; };
+
+        //Static Properties
+        static RootContainer Current{ get; };
+
+        static String AppName{ get; };
+        static Windows.Foundation.Uri AppIcon { get; };
+        static String Developer{ get; };
+        static String Version{ get; };
+    }
+}
