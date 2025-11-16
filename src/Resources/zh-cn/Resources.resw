@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- AppxManifest.xml -->
+  <data name="AppName" xml:space="preserve">
+    <value>MSIX 稀疏包管理器</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>此应用用于注册、移除具有对外部位置的支持的 MSIX 包</value>
+  </data>
+  <!-- Resources -->
+  <!-- RootContainer.xaml -->
+  <data name="RegisterPage.Content" xml:space="preserve">
+    <value>注册器</value>
+  </data>
+  <data name="PackageListPage.Content" xml:space="preserve">
+    <value>稀疏包列表</value>
+  </data>
+  <!-- Pages.RegisterPage.xaml -->
+  <data name="BasicArgs.Text" xml:space="preserve">
+    <value>基本参数</value>
+  </data>
+  <data name="Register.Text" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="MSIXSparsePath.PlaceholderText" xml:space="preserve">
+    <value>MSIX 稀疏包路径</value>
+  </data>
+  <data name="DesktopAppPath.PlaceholderText" xml:space="preserve">
+    <value>桌面应用目录路径</value>
+  </data>
+  <data name="PickFile.Text" xml:space="preserve">
+    <value>选取文件</value>
+  </data>
+  <data name="PickDir.Text" xml:space="preserve">
+    <value>选取目录</value>
+  </data>
+  <data name="ExtraArgs.Header" xml:space="preserve">
+    <value>额外参数</value>
+  </data>
+  <data name="ForceClose.Content" xml:space="preserve">
+    <value>安装时强制关闭应用</value>
+  </data>
+  <data name="ForceClose.ToolTipService.ToolTip" xml:space="preserve">
+    <value>强制关闭与包关联的进程，以便在包或依赖于包的任何包当前正在使用的情况下，注册可以继续。</value>
+  </data>
+  <data name="ForceUpdate.Content" xml:space="preserve">
+    <value>强制安装任何版本的包</value>
+  </data>
+  <data name="ForceUpdate.ToolTipService.ToolTip" xml:space="preserve">
+    <value>强制添加包的特定版本，而不管是否已添加更高版本。</value>
+  </data>
+  <data name="AllowUnsigned.Content" xml:space="preserve">
+    <value>允许安装未签名的包（有潜在风险）</value>
+  </data>
+  <data name="AllowUnsignedTip.Text" xml:space="preserve">
+    <value>警告：此参数具有风险！！！&#x000A;如果启用，将允许注册未签名的包，但可能会给操作系统带来风险！&#x000A;因此，为了操作系统的安全与稳定，建议不要启用此参数！</value>
+  </data>
+  <!-- Pages.PackageListPage.xaml -->
+  <data name="Refresh.ToolTipService.ToolTip" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="ExternalPath.Text" xml:space="preserve">
+    <value>外部路径：</value>
+  </data>
+  <data name="OpenManifest.Text" xml:space="preserve">
+    <value>打开包清单</value>
+  </data>
+  <data name="OpenExternalFolder.Text" xml:space="preserve">
+    <value>打开外部目录</value>
+  </data>
+  <data name="Remove.Text" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="PackageFullName.Text" xml:space="preserve">
+    <value>应用包全名：</value>
+  </data>
+  <data name="UserExternalPath.Text" xml:space="preserve">
+    <value>每用户外部路径：</value>
+  </data>
+  <data name="MachineExternalPath.Text" xml:space="preserve">
+    <value>本机外部路径：</value>
+  </data>
+  <!-- Pages.SettingsPage.xaml -->
+  <data name="AppTheme.Header" xml:space="preserve">
+    <value>应用主题</value>
+  </data>
+  <data name="ThemeLight.Content" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="ThemeDark.Content" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="ThemeSystem.Content" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
+  <data name="NavStyle.Header" xml:space="preserve">
+    <value>导航样式</value>
+  </data>
+  <data name="StyleLeft.Content" xml:space="preserve">
+    <value>左侧</value>
+  </data>
+  <data name="StyleTop.Content" xml:space="preserve">
+    <value>顶部</value>
+  </data>
+  <data name="AboutApp.Text" xml:space="preserve">
+    <value>关于应用</value>
+  </data>
+  <data name="AppDisplayName.Text" xml:space="preserve">
+    <value>应用名称：</value>
+  </data>
+  <data name="Developer.Text" xml:space="preserve">
+    <value>开发者：</value>
+  </data>
+  <data name="Version.Text" xml:space="preserve">
+    <value>版本：</value>
+  </data>
+  <!-- Unarchived Resources -->
+  <data name="ReleaseToSelectFile" xml:space="preserve">
+    <value>释放以选择文件</value>
+  </data>
+  <data name="ReleaseToSelectDir" xml:space="preserve">
+    <value>释放以选择目录</value>
+  </data>
+  <data name="WarningTitle" xml:space="preserve">
+    <value>警告！！！</value>
+  </data>
+  <data name="WarningContent" xml:space="preserve">
+    <value>注册未签名的包可能会给操作系统带来潜在风险，&#x000A;本程序作者不承担由此带来的一切后果！&#x000A;确定继续启用吗？</value>
+  </data>
+  <data name="ContentDialogConfirm" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ContentDialogCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="PackagesCountReportStr" xml:space="preserve">
+    <value>已找到 %d 个稀疏包</value>
+  </data>
+</root>
