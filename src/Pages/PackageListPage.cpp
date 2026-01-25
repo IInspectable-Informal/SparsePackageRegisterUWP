@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Pages/PackageListPage.h"
 #include "Pages.PackageListPage.g.cpp"
-#include "helpers.h"
+#include "constants.h"
+#include "helpers.hpp"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -10,10 +11,12 @@ using namespace Windows::System;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Interop;
+namespace muxc = Microsoft::UI::Xaml::Controls;
 
 namespace winrt::SparsePackageManager::Pages::implementation
 {
-    PackageListPage::PackageListPage()
+    PackageListPage::PackageListPage() :
+        m_Dialog(local::Dialog::Current())
     {
         InitializeComponent();
         options.DisplayApplicationPicker(true);
@@ -21,8 +24,9 @@ namespace winrt::SparsePackageManager::Pages::implementation
     }
 
     //Handlers
-    fire_and_forget PackageListPage::RefreshPackageListRequested(IInspectable const&, RoutedEventArgs const&)
+    fire_and_forget PackageListPage::RefreshPackageListRequested(muxc::RefreshContainer const&, muxc::RefreshRequestedEventArgs const& e)
     {
+        auto deferral = e.GetDeferral();
         RefreshButton().IsEnabled(false);
         m_PackageInfoVec.Clear();
         for (auto const& pkg : GetPackageManagerForCurrentThread()->FindPackagesForUser(L""))
@@ -40,10 +44,18 @@ namespace winrt::SparsePackageManager::Pages::implementation
                 FileIO::AppendTextAsync(file, ex.message() + L"\n").get();
             }
         }
+        PackagesCountReport().Text(
+            runtime_format(GetLocalizedString(L"PackagesCountReportText"), m_PackageInfoVec.Size())
+        );
+        deferral.Complete();
+        deferral.Close();
         RefreshButton().IsEnabled(true);
     }
 
-    fire_and_forget PackageListPage::LaunchIStorageItem(IInspectable const& sender, RoutedEventArgs const&)
+    void PackageListPage::RefreshByClickRequested(IInspectable const&, RoutedEventArgs const&)
+    { PullToRefresh().RequestRefresh(); }
+
+    fire_and_forget PackageListPage::LaunchIStorageItemRequested(IInspectable const& sender, RoutedEventArgs const&)
     {
         auto control = sender.as<MenuFlyoutItem>();
         control.IsEnabled(false);
@@ -54,9 +66,26 @@ namespace winrt::SparsePackageManager::Pages::implementation
         control.IsEnabled(true);
     }
 
+    fire_and_forget PackageListPage::RemovePackageRequested(IInspectable const& sender, RoutedEventArgs const&)
+    {
+        auto pkgFullName = sender.as<FrameworkElement>().Tag().as<hstring>();
+        auto item = locald::TaskInfo::CreateInstance(pkgFullName);
+        if (item)
+        {
+            GetTaskInfoListForCurrentThread().InsertAt(0, item);
+            if (co_await item.RunTaskAsync())
+            { PullToRefresh().RequestRefresh(); }
+        }
+        else
+        {
+            co_await m_Dialog.ShowErrorAsync(
+                GetLocalizedString(L"PackageTamperedText"),
+                GetLocalizedString(L"ErrorHeaderText")
+            );
+        }
+    }
+
     //ITypeProvider
     TypeName PackageListPage::Type()
-    { return PackageListPage::sm_Type; }
-
-    const TypeName PackageListPage::sm_Type = xaml_typename<localp::PackageListPage>();
+    { return g_PackageListPageType; }
 }

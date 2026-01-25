@@ -16,9 +16,6 @@ namespace winrt::SparsePackageManager::Pages::implementation
 
         //ITypeProvider
         Windows::UI::Xaml::Interop::TypeName Type();
-
-    private:
-        static const Windows::UI::Xaml::Interop::TypeName sm_Type;
     };
 }
 

@@ -1,0 +1,30 @@
+import "Controls\TaskViewItem.idl";
+
+namespace SparsePackageManager.Data
+{
+    [default_interface]
+    runtimeclass TaskInfo : Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        String Summary{ get; };
+        String Detail{ get; };
+        Boolean IsWaiting{ get; };
+        Double Percentage{ get; };
+        TaskState State{ get; };
+
+        SparsePackageManager.Controls.CloseRequestedCallback RemovalCallback{ get; };
+
+        Windows.Foundation.IAsyncOperation<Boolean> RunTaskAsync();
+        
+        [default_overload]
+        static TaskInfo CreateInstance(Windows.Foundation.Uri packageUri, Windows.Management.Deployment.AddPackageOptions options);
+        static TaskInfo CreateInstance(Windows.Foundation.Uri manifestUri, Windows.Management.Deployment.RegisterPackageOptions options);
+        static TaskInfo CreateInstance(String packageFullName);
+    }
+
+    enum TaskState
+    {
+        Working,
+        Succeeded,
+        Failed
+    };
+}

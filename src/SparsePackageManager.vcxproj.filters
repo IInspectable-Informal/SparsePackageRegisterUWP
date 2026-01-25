@@ -32,6 +32,24 @@
     <Midl Include="ITypeProvider.idl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="helpers.h" />
+    <ClInclude Include="helpers.hpp" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="Dialog.h" />
+    <ClInclude Include="RootContainer.h" />
+    <ClInclude Include="Pages\PackageListPage.h">
+      <Filter>Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Pages\RegisterPage.h">
+      <Filter>Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Pages\SettingsPage.h">
+      <Filter>Pages</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="RootContainer.cpp" />
@@ -45,22 +63,6 @@
       <Filter>Pages</Filter>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="public.h" />
-    <ClInclude Include="App.h" />
-    <ClInclude Include="Dialog.h" />
-    <ClInclude Include="RootContainer.h" />
-    <ClInclude Include="Pages\PackageListPage.h">
-      <Filter>Pages</Filter>
-    </ClInclude>
-    <ClInclude Include="Pages\RegisterPage.h">
-      <Filter>Pages</Filter>
-    </ClInclude>
-    <ClInclude Include="Pages\SettingsPage.h">
-      <Filter>Pages</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

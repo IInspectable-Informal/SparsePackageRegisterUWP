@@ -1,16 +1,20 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Pages/RegisterPage.h"
 #include "Pages.RegisterPage.g.cpp"
-#include "helpers.h"
+#include "constants.h"
+#include "helpers.hpp"
 
 using namespace winrt;
 using namespace Windows::ApplicationModel::DataTransfer;
 using namespace Windows::Foundation;
+using namespace Windows::Management::Deployment;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Pickers;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Interop;
+
+const std::vector<hstring> SupportedSchemas = { L"http", L"https", L"ftp", L"file" };
 
 namespace winrt::SparsePackageManager::Pages::implementation
 {
@@ -26,10 +30,9 @@ namespace winrt::SparsePackageManager::Pages::implementation
     //Handlers
     fire_and_forget RegisterPage::ShowWarning(IInspectable const&, RoutedEventArgs const&)
     {
-        auto dialog = local::Dialog::Current();
         AllowUnsignedPackage().IsEnabled(false);
-        dialog.Glyph(L"\xE7BA"); dialog.Text(GetLocalizedString(L"WarningTitle"));
-        if (co_await dialog.ShowInfoAsync(GetLocalizedString(L"WarningContent"),
+        m_Dialog.Glyph(L"\xE7BA"); m_Dialog.Text(GetLocalizedString(L"WarningTitle"));
+        if (co_await m_Dialog.ShowInfoAsync(GetLocalizedString(L"WarningContent"),
             GetLocalizedString(L"ContentDialogConfirm"), GetLocalizedString(L"ContentDialogCancel"),
             ContentDialogButton::Close) != ContentDialogResult::Primary)
         { AllowUnsignedPackage().IsChecked(false); }
@@ -78,6 +81,60 @@ namespace winrt::SparsePackageManager::Pages::implementation
         }
     }
 
+    fire_and_forget RegisterPage::Register(IInspectable const&, RoutedEventArgs const&)
+    {
+        IsEnabled(false);
+        auto filePath = MSIXPath().Text();
+        auto dirPath = DesktopAppDirPath().Text();
+        if (filePath == L"")
+        { co_await m_Dialog.ShowErrorAsync(GetLocalizedString(L"PathErrorText1")); }
+        else if (dirPath == L"")
+        { co_await m_Dialog.ShowErrorAsync(GetLocalizedString(L"PathErrorText2")); }
+        else
+        {
+            hresult_error ex{ 0 };
+            try
+            {
+                Uri fileUri{ filePath }; Uri dirUri{ dirPath };
+                if (find(SupportedSchemas.begin(), SupportedSchemas.end(), fileUri.SchemeName()) == SupportedSchemas.end())
+                { co_await m_Dialog.ShowErrorAsync(runtime_format(GetLocalizedString(L"UriErrorText1"), fileUri.SchemeName().c_str())); }
+                else if (dirUri.SchemeName() != L"file")
+                { co_await m_Dialog.ShowErrorAsync(GetLocalizedString(L"UriErrorText2")); }
+                else
+                {
+                    m_Options.ExternalLocationUri(dirUri);
+                    m_Options.ForceAppShutdown(ForceClose().IsChecked().Value());
+                    m_Options.ForceUpdateFromAnyVersion(ForceUpdate().IsChecked().Value());
+                    m_Options.AllowUnsigned(AllowUnsignedPackage().IsChecked().Value());
+                    auto item = locald::TaskInfo::CreateInstance(fileUri, m_Options);
+                    if (item)
+                    {
+                        GetTaskInfoListForCurrentThread().InsertAt(0, item);
+                        IsEnabled(true);
+                        co_await item.RunTaskAsync();
+                        co_return;
+                    }
+                    else
+                    {
+                        co_await m_Dialog.ShowErrorAsync(
+                            GetLocalizedString(L"PackageTamperedText"),
+                            GetLocalizedString(L"ErrorHeaderText")
+                        );
+                    }
+                }
+            }
+            catch (hresult_error const& ex0)
+            { ex = ex0; }
+            if (ex.code() != 0)
+            {
+                co_await m_Dialog.ShowErrorAsync(
+                    std::format(L"{}\nHRESULT: 0x{:08X}", ex.message(), ex.code()).c_str(),
+                    GetLocalizedString(L"ErrorHeaderText")
+                );
+            }
+        } IsEnabled(true);
+    }
+
     //Private functions
     void RegisterPage::GetFile(StorageFile const& file)
     {
@@ -99,7 +156,5 @@ namespace winrt::SparsePackageManager::Pages::implementation
 
     //ITypeProvider
     TypeName RegisterPage::Type()
-    { return RegisterPage::sm_Type; }
-
-    const TypeName RegisterPage::sm_Type = xaml_typename<localp::RegisterPage>();
+    { return g_RegisterPageType; }
 }

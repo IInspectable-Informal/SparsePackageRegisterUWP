@@ -7,7 +7,6 @@ using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Data;
-typedef TypedEventHandler<local::Dialog, IInspectable> DialogOpenedEventHandler;
 
 namespace winrt::SparsePackageManager::implementation
 {
@@ -23,10 +22,6 @@ namespace winrt::SparsePackageManager::implementation
 
             IAsyncOperation<ContentDialogResult> ShowInfoAsync(hstring const&, hstring const&, hstring const& = L"", ContentDialogButton const& = ContentDialogButton::None);
             IAsyncOperation<ContentDialogResult> ShowErrorAsync(hstring const&, hstring const& = L"");
-            IAsyncOperation<ContentDialogResult> ShowStatusAsync(ContentDialogButton const&);
-
-            event_token DialogOpened(DialogOpenedEventHandler const& handler)noexcept { return m_DialogOpened.add(handler); }
-            void DialogOpened(event_token const& token)noexcept { m_DialogOpened.remove(token); }
 
             void Reset(ContentDialog const& = nullptr, ContentDialogClosedEventArgs const& = nullptr);
             void ResetContent();
@@ -38,13 +33,6 @@ namespace winrt::SparsePackageManager::implementation
             hstring Text() { return m_Text; }
             void Text(hstring const& value) { m_Text = value; Notify(); }
 
-            double Progress() { return m_Progress; }
-            void Progress(double const& value) { m_Progress = value; Notify(); }
-            bool IsIndeterminate() { return m_IsIndeterminate; }
-            void IsIndeterminate(bool const& value) { m_IsIndeterminate = value; Notify(); }
-            hstring Status() { return m_Status; }
-            void Status(hstring const& value) { m_Status = value; Notify(); }
-
             hstring Info() { return m_Info; }
             void Info(hstring const& value) { m_Info = value; Notify(); }
 
@@ -53,9 +41,7 @@ namespace winrt::SparsePackageManager::implementation
             hstring ErrorHeader() { return m_ErrorHeader; }
             void ErrorHeader(hstring const& value) { m_ErrorHeader = value; Notify(); }
 
-            //Events
-            void InvokeEvent(ContentDialog const&, ContentDialogOpenedEventArgs const&)
-            { if (StatusPanel().Visibility() == Visibility::Visible) { m_DialogOpened(*this, nullptr); } }
+            //INotifyPropertyChanged
             event_token PropertyChanged(PropertyChangedEventHandler const& eh)noexcept { return m_PropertyChanged.add(eh); }
             void PropertyChanged(event_token const& et)noexcept { m_PropertyChanged.remove(et); }
 
@@ -65,9 +51,7 @@ namespace winrt::SparsePackageManager::implementation
         private:
             ::Style DefaultButtonStyle{ nullptr };
             ::Style AccentButtonStyle{ nullptr };
-            event<DialogOpenedEventHandler> m_DialogOpened;
             hstring m_Glyph; hstring m_Text;
-            double m_Progress = 0; bool m_IsIndeterminate = false; hstring m_Status = L"";
             hstring m_Info = L"";
             hstring m_ErrorInfo = L""; hstring m_ErrorHeader = L"";
             event<PropertyChangedEventHandler> m_PropertyChanged;

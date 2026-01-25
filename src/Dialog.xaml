@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d" Closed="Reset" Opened="InvokeEvent">
+    mc:Ignorable="d" Closed="Reset">
 
     <ContentDialog.Resources>
         <ResourceDictionary>
@@ -32,19 +32,15 @@
         </Grid>
     </ContentDialog.Title>
 
-    <ScrollViewer x:Name="ScrV" VerticalScrollBarVisibility="Auto" Margin="0,0,-24,0" Padding="0,0,24,0">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,-24,0" Padding="0,0,24,0">
         <Grid x:Name="Root">
-            <Grid x:Name="StatusPanel" ColumnSpacing="12" Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <muxc:ProgressRing Value="{x:Bind Progress, Mode=OneWay}" IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}" IsActive="True"/>
-                <TextBlock Text="{x:Bind Status, Mode=OneWay}" Grid.Column="1"/>
-            </Grid>
             <TextBlock x:Name="InfoPresenter" Text="{x:Bind Info, Mode=OneWay}" Visibility="Collapsed"/>
-            <TextBox x:Name="ErrorPresenter" Text="{x:Bind ErrorInfo, Mode=OneWay}" Header="{x:Bind ErrorHeader, Mode=OneWay}"
-                           TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.VerticalScrollMode="Auto" Visibility="Collapsed"/>
+            <StackPanel x:Name="ErrorPresenter" Spacing="8" Visibility="Collapsed">
+                <TextBlock Text="{x:Bind ErrorHeader, Mode=OneWay}"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="{x:Bind ErrorInfo, Mode=OneWay}"
+                           TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
+            </StackPanel>
         </Grid>
     </ScrollViewer>
 

@@ -11,21 +11,21 @@ namespace winrt::SparsePackageManager::Controls::implementation
 {
     SettingItem::SettingItem()
     {
-        DefaultStyleKey(box_value(SettingItem::sm_SettingItemType));
+        DefaultStyleKey(box_value(SettingItem::s_Type));
     }
 
     //Properties
     IconElement SettingItem::Icon()
-    { return GetValue(SettingItem::sm_IconProperty).as<IconElement>(); }
+    { return GetValue(SettingItem::s_IconProperty).as<IconElement>(); }
 
     void SettingItem::Icon(IconElement const& value)
-    { SetValue(SettingItem::sm_IconProperty, value); }
+    { SetValue(SettingItem::s_IconProperty, value); }
 
     IInspectable SettingItem::Header()
-    { return GetValue(SettingItem::sm_HeaderProperty); }
+    { return GetValue(SettingItem::s_HeaderProperty); }
 
     void SettingItem::Header(IInspectable const& value)
-    { SetValue(SettingItem::sm_HeaderProperty, value); }
+    { SetValue(SettingItem::s_HeaderProperty, value); }
 
     //FrameworkElement
     void SettingItem::OnApplyTemplate()
@@ -35,22 +35,22 @@ namespace winrt::SparsePackageManager::Controls::implementation
 
     //Static Properties
     DependencyProperty SettingItem::IconProperty()
-    { return SettingItem::sm_IconProperty; }
+    { return SettingItem::s_IconProperty; }
 
     DependencyProperty SettingItem::HeaderProperty()
-    { return SettingItem::sm_HeaderProperty; }
+    { return SettingItem::s_HeaderProperty; }
 
-    const ::Interop::TypeName SettingItem::sm_SettingItemType = xaml_typename<localc::SettingItem>();
+    const ::Interop::TypeName SettingItem::s_Type = xaml_typename<localc::SettingItem>();
 
-    const DependencyProperty SettingItem::sm_IconProperty = DependencyProperty::Register(
+    const DependencyProperty SettingItem::s_IconProperty = DependencyProperty::Register(
        L"Icon",
        xaml_typename<IconElement>(),
-       SettingItem::sm_SettingItemType,
+       SettingItem::s_Type,
        PropertyMetadata(nullptr));
 
-    const DependencyProperty SettingItem::sm_HeaderProperty = DependencyProperty::Register(
+    const DependencyProperty SettingItem::s_HeaderProperty = DependencyProperty::Register(
        L"Header",
        xaml_typename<IInspectable>(),
-       SettingItem::sm_SettingItemType,
+       SettingItem::s_Type,
        PropertyMetadata(nullptr));
 }

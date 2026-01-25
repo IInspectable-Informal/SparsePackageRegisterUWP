@@ -24,7 +24,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer Padding="36,12">
+    <ScrollViewer Padding="36,12" VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="8">
             <StackPanel.ChildrenTransitions>
                 <EntranceThemeTransition FromVerticalOffset="100" IsStaggeringEnabled="True"/>
@@ -41,7 +41,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Uid="BasicArgs" VerticalAlignment="Center"/>
-                        <Button Style="{StaticResource AccentButtonStyle}" Grid.Column="1">
+                        <Button Click="Register" Style="{StaticResource AccentButtonStyle}" Grid.Column="1">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE896;" FontSize="19"/>
                                 <TextBlock x:Uid="Register"/>

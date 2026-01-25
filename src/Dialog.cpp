@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Dialog.h"
 #include "Dialog.g.cpp"
+#include "helpers.h"
 
 using namespace winrt;
 using namespace Windows::UI::ViewManagement;
@@ -10,13 +11,9 @@ namespace winrt::SparsePackageManager::implementation
     bool Dialog::Show(hstring const& name)
     {
         ResetContent(); UIElement Control = nullptr;
-        if (name == L"Status") { Control = StatusPanel(); }
-        else if (name == L"Info") { Control = InfoPresenter(); }
+        if (name == L"Info") { Control = InfoPresenter(); }
         else if (name == L"ErrorInfo")
-        {
-            Control = ErrorPresenter();
-            ScrV().VerticalScrollMode(ScrollMode::Disabled);
-        }
+        { Control = ErrorPresenter(); }
         else { return false; }
         Control.Visibility(Visibility::Visible);
         return true;
@@ -48,15 +45,11 @@ namespace winrt::SparsePackageManager::implementation
 
     IAsyncOperation<ContentDialogResult> Dialog::ShowErrorAsync(hstring const& errorInfo, hstring const& errorHeader)
     {
-        Glyph(L"\xE783"); Text(L"错误"); Show(L"ErrorInfo"); CloseButtonText(L"关闭");
+        Show(L"ErrorInfo"); Glyph(L"\xE783");
+        Text(GetLocalizedString(L"ErrorTitle"));
+        CloseButtonText(GetLocalizedString(L"CloseButtonText"));
         SetDefaultButton(ContentDialogButton::Close);
         ErrorInfo(errorInfo); ErrorHeader(errorHeader);
-        return PShow(*this);
-    }
-
-    IAsyncOperation<ContentDialogResult> Dialog::ShowStatusAsync(ContentDialogButton const& defaultButton)
-    {
-        Show(L"Status"); SetDefaultButton(defaultButton);
         return PShow(*this);
     }
 
@@ -74,9 +67,7 @@ namespace winrt::SparsePackageManager::implementation
     {
         for (UIElement const& item : Root().Children())
         { item.Visibility(Visibility::Collapsed); }
-        ScrV().VerticalScrollMode(ScrollMode::Auto);
-        m_Progress = 0; m_IsIndeterminate = false;
-        m_Status = m_Info = m_ErrorInfo = m_ErrorHeader = L"";
+        m_Info = m_ErrorInfo = m_ErrorHeader = L"";
         Notify();
     }
 

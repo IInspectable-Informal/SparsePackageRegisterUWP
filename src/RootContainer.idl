@@ -1,7 +1,7 @@
 namespace SparsePackageManager
 {
     [default_interface]
-    runtimeclass RootContainer : Windows.UI.Xaml.Controls.Grid
+    runtimeclass RootContainer : Windows.UI.Xaml.Controls.Grid , Windows.UI.Xaml.Controls.INavigate
     {
         Boolean IsPaneOnTop{ get; set; };
 

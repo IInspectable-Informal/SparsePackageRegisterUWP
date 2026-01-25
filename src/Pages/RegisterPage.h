@@ -3,6 +3,7 @@
 
 namespace winrt::SparsePackageManager::Pages::implementation
 {
+    using DeploymentTaskHandler = Windows::Foundation::IAsyncOperationWithProgress<Windows::Management::Deployment::DeploymentResult, Windows::Management::Deployment::DeploymentProgress>;
     struct RegisterPage : RegisterPageT<RegisterPage>
     {
     public:
@@ -16,6 +17,8 @@ namespace winrt::SparsePackageManager::Pages::implementation
         void IdentifyObject(IInspectable const&, Windows::UI::Xaml::DragEventArgs const&);
         void GetIStorageItem(IInspectable const&, Windows::UI::Xaml::DragEventArgs const&);
 
+        fire_and_forget Register(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
+
         //ITypeProvider
         Windows::UI::Xaml::Interop::TypeName Type();
 
@@ -23,10 +26,12 @@ namespace winrt::SparsePackageManager::Pages::implementation
         Windows::Storage::Pickers::FileOpenPicker MSIXFilePicker;
         Windows::Storage::Pickers::FolderPicker DesktopAppDirPicker;
 
+        Windows::Management::Deployment::AddPackageOptions m_Options;
+
+        local::Dialog m_Dialog = local::Dialog::Current();
+
         void GetFile(Windows::Storage::StorageFile const&);
         void GetDir(Windows::Storage::StorageFolder const&);
-
-        static const Windows::UI::Xaml::Interop::TypeName sm_Type;
     };
 }
 

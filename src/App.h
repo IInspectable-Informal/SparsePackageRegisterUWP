@@ -5,16 +5,17 @@ namespace winrt::SparsePackageManager::implementation
 {
     struct App : AppT<App>
     {
-        public:
-            App();
+    public:
+        App();
 
-            void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs const&);
-            void OnSuspending(IInspectable const&, Windows::ApplicationModel::SuspendingEventArgs const&);
-        private:
-            bool Inited = false;
+        void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs const&);
+        void OnSuspending(IInspectable const&, Windows::ApplicationModel::SuspendingEventArgs const&);
 
-            fire_and_forget CreateView();
-            int InitView();
+    private:
+        bool Inited = false;
+
+        fire_and_forget CreateView();
+        int InitView();
     };
 }
 
@@ -40,15 +41,19 @@ namespace winrt::SparsePackageManager::implementation
 //   Update includes when adding new pages to the project
 //   Monitor Microsoft toolchain updates for permanent fix availability
 // ============================================================================
-#include "Pages/PackageListPage.h"
-#include "Pages/RegisterPage.h"
-#include "Pages/SettingsPage.h"
 #if __has_include("Pages.PackageListPage.xaml.g.hpp")
-#include "Pages.PackageListPage.xaml.g.hpp"
+#   include "Pages/PackageListPage.h"
+#   include "Pages.PackageListPage.xaml.g.hpp"
 #endif
 #if __has_include("Pages.RegisterPage.xaml.g.hpp")
-#include "Pages.RegisterPage.xaml.g.hpp"
+#   include "Pages/RegisterPage.h"
+#   include "Pages.RegisterPage.xaml.g.hpp"
 #endif
 #if __has_include("Pages.SettingsPage.xaml.g.hpp")
-#include "Pages.SettingsPage.xaml.g.hpp"
+#   include "Pages/SettingsPage.h"
+#   include "Pages.SettingsPage.xaml.g.hpp"
+#endif
+#if __has_include("Pages.TaskListPage.xaml.g.hpp")
+#   include "Pages/TaskListPage.h"
+#   include "Pages.TaskListPage.xaml.g.hpp"
 #endif

@@ -47,7 +47,5 @@ namespace winrt::SparsePackageManager::Pages::implementation
 
     //ITypeProvider
     TypeName SettingsPage::Type()
-    { return SettingsPage::sm_Type; }
-
-    const TypeName SettingsPage::sm_Type = xaml_typename<localp::SettingsPage>();
+    { return g_SettingsPageType; }
 }

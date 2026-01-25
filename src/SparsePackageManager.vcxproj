@@ -94,6 +94,8 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <ControlFlowGuard>Guard</ControlFlowGuard>
+      <LanguageStandard Condition="'$(VisualStudioVersion)' == '16.0'">stdcpp17</LanguageStandard>
+      <LanguageStandard Condition="'$(VisualStudioVersion)' == '17.0'">stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -101,40 +103,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="helpers.h" />
-    <ClInclude Include="TitleBarDefaultColors.h" />
-    <ClInclude Include="App.h">
-      <DependentUpon>App.xaml</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="Dialog.h">
-      <DependentUpon>Dialog.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="RootContainer.h">
-      <DependentUpon>RootContainer.xaml</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="Controls\SettingItem.h">
-      <DependentUpon>Controls\SettingItem.idl</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="Data\PackageInfo.h">
-      <DependentUpon>Data\PackageInfo.idl</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="Pages\PackageListPage.h">
-      <DependentUpon>Pages.PackageListPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="Pages\RegisterPage.h">
-      <DependentUpon>Pages.RegisterPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="Pages\SettingsPage.h">
-      <DependentUpon>Pages.SettingsPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-  </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
@@ -154,6 +122,91 @@
     <Page Include="Pages.SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages.TaskListPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="App.idl">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="Dialog.idl">
+      <DependentUpon>Dialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="RootContainer.idl">
+      <DependentUpon>RootContainer.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="Controls\SettingItem.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Controls\TaskViewItem.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Data\PackageInfo.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Data\TaskInfo.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Pages\PackageListPage.idl">
+      <DependentUpon>Pages.PackageListPage.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="Pages\RegisterPage.idl">
+      <DependentUpon>Pages.RegisterPage.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="Pages\SettingsPage.idl">
+      <DependentUpon>Pages.SettingsPage.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="Pages\TaskListPage.idl">
+      <DependentUpon>Pages.TaskListPage.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="ITypeProvider.idl"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="helpers.h" />
+    <ClInclude Include="helpers.hpp" />
+    <ClInclude Include="TitleBarDefaultColors.h" />
+    <ClInclude Include="App.h">
+      <DependentUpon>App.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Dialog.h">
+      <DependentUpon>Dialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="RootContainer.h">
+      <DependentUpon>RootContainer.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Controls\SettingItem.h">
+      <DependentUpon>Controls\SettingItem.idl</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Controls\TaskViewItem.h">
+      <DependentUpon>Controls\TaskViewItem.idl</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Data\PackageInfo.h">
+      <DependentUpon>Data\PackageInfo.idl</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Data\TaskInfo.h">
+      <DependentUpon>Data\TaskInfo.idl</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Pages\PackageListPage.h">
+      <DependentUpon>Pages.PackageListPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Pages\RegisterPage.h">
+      <DependentUpon>Pages.RegisterPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Pages\SettingsPage.h">
+      <DependentUpon>Pages.SettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Pages\TaskListPage.h">
+      <DependentUpon>Pages.TaskListPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -177,8 +230,14 @@
     <ClCompile Include="Controls\SettingItem.cpp">
       <DependentUpon>Controls\SettingItem.idl</DependentUpon>
     </ClCompile>
+    <ClCompile Include="Controls\TaskViewItem.cpp">
+      <DependentUpon>Controls\TaskViewItem.idl</DependentUpon>
+    </ClCompile>
     <ClCompile Include="Data\PackageInfo.cpp">
       <DependentUpon>Data\PackageInfo.idl</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="Data\TaskInfo.cpp">
+      <DependentUpon>Data\TaskInfo.idl</DependentUpon>
     </ClCompile>
     <ClCompile Include="Pages\PackageListPage.cpp">
       <DependentUpon>Pages.PackageListPage.xaml</DependentUpon>
@@ -189,35 +248,10 @@
     <ClCompile Include="Pages\SettingsPage.cpp">
       <DependentUpon>Pages.SettingsPage.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="Pages\TaskListPage.cpp">
+      <DependentUpon>Pages.TaskListPage.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="App.idl">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Midl>
-    <Midl Include="Dialog.idl">
-      <DependentUpon>Dialog.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="RootContainer.idl">
-      <DependentUpon>RootContainer.xaml</DependentUpon>
-    </Midl>
-    <Midl Include="Controls\SettingItem.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="Data\PackageInfo.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="Pages\PackageListPage.idl">
-      <DependentUpon>Pages.PackageListPage.xaml</DependentUpon>
-    </Midl>
-    <Midl Include="Pages\RegisterPage.idl">
-      <DependentUpon>Pages.RegisterPage.xaml</DependentUpon>
-    </Midl>
-    <Midl Include="Pages\SettingsPage.idl">
-      <DependentUpon>Pages.SettingsPage.xaml</DependentUpon>
-    </Midl>
-    <Midl Include="ITypeProvider.idl"/>
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Resources\zh-cn\Resources.resw" />

@@ -25,6 +25,9 @@ namespace winrt::SparsePackageManager::implementation
         bool IsPaneOnTop();
         void IsPaneOnTop(bool const&);
 
+        //INavigate
+        bool Navigate(Windows::UI::Xaml::Interop::TypeName const&);
+
         //Static Properties
         static local::RootContainer Current();
 
@@ -34,14 +37,12 @@ namespace winrt::SparsePackageManager::implementation
         static hstring Version();
 
     private:
+        std::vector<Windows::UI::Xaml::Interop::TypeName> m_TypeList;
         const Windows::UI::ViewManagement::ApplicationViewTitleBar m_ViewTitleBar;
-
         const local::Dialog m_Dialog;
 
-        void NavigateTo(hstring const&);
-
-        static winrt::slim_mutex sm_mutex;
-        static RootContainerMap sm_instances;
+        static winrt::slim_mutex s_mutex;
+        static RootContainerMap s_instances;
     };
 }
 

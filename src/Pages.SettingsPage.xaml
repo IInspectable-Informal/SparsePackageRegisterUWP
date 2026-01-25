@@ -11,7 +11,7 @@
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
-    <ScrollViewer Padding="36,12">
+    <ScrollViewer Padding="36,12" VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="8">
             <StackPanel.ChildrenTransitions>
                 <EntranceThemeTransition FromVerticalOffset="100" IsStaggeringEnabled="True"/>

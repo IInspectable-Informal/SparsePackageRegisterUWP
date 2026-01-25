@@ -17,8 +17,8 @@
                     <Thickness x:Key="SettingItemContentPadding">16</Thickness>
                     <Style TargetType="localc:SettingItem">
                         <Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}"/>
-                        <Setter Property="BorderThickness" Value="{ThemeResource ExpanderContentDownBorderThickness}" />
-                        <Setter Property="BorderBrush" Value="{ThemeResource ExpanderContentBorderBrush}" />
+                        <Setter Property="BorderThickness" Value="{ThemeResource ExpanderContentDownBorderThickness}"/>
+                        <Setter Property="BorderBrush" Value="{ThemeResource ExpanderContentBorderBrush}"/>
                         <Setter Property="Padding" Value="{StaticResource SettingItemContentPadding}"/>
                         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
                         <Setter Property="Template">
@@ -41,6 +41,88 @@
                                                           VerticalAlignment="Center" Grid.Column="1"/>
                                         <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}"
                                                           VerticalAlignment="Center" Grid.Column="2"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="localc:TaskViewItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="{ThemeResource InfoBarBorderThickness}"/>
+                        <Setter Property="BorderBrush" Value="{ThemeResource InfoBarBorderBrush}"/>
+                        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="localc:TaskViewItem">
+                                    <Grid x:Name="RootGrid"
+                                        RequestedTheme="{TemplateBinding RequestedTheme}"
+                                        Background="{TemplateBinding Background}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        CornerRadius="{TemplateBinding CornerRadius}">
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="SeverityLevels">
+                                                <VisualState x:Name="Infomational"/>
+                                                <VisualState x:Name="Success">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="RootGrid.Background" Value="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}"/>
+                                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconBackground}"/>
+                                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarSuccessIconGlyph}"/>
+                                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconForeground}"/>
+                                                        <Setter Target="ProgressBar.Value" Value="100"/>
+                                                        <Setter Target="ProgressBar.IsIndeterminate" Value="False"/>
+                                                        <Setter Target="ProgressBar.ShowError" Value="False"/>
+                                                        <Setter Target="CloseButton.Visibility" Value="Visible"/>
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Error">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="RootGrid.Background" Value="{ThemeResource InfoBarErrorSeverityBackgroundBrush}"/>
+                                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}"/>
+                                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}"/>
+                                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconForeground}"/>
+                                                        <Setter Target="ProgressBar.Value" Value="100"/>
+                                                        <Setter Target="ProgressBar.IsIndeterminate" Value="False"/>
+                                                        <Setter Target="ProgressBar.ShowError" Value="True"/>
+                                                        <Setter Target="CloseButton.Visibility" Value="Visible"/>
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="8"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="8"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Margin="8">
+                                            <FontIcon x:Name="IconBackground" Glyph="&#xF136;"
+                                                      Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"/>
+                                            <FontIcon x:Name="IconForeground" Glyph="&#xF13F;"
+                                                      Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"/>
+                                        </Grid>
+                                        <TextBlock Text="{TemplateBinding Title}" TextWrapping="Wrap"
+                                                   FontWeight="{StaticResource InfoBarTitleFontWeight}"
+                                                   VerticalAlignment="Center" Grid.Column="1"/>
+                                        <TextBlock Text="{TemplateBinding Message}"
+                                                   TextWrapping="Wrap" IsTextSelectionEnabled="True"
+                                                   Grid.Row="1" Grid.Column="1"/>
+                                        <Button x:Name="CloseButton" Content="&#xE8BB;"
+                                                Background="transparent" BorderThickness="0"
+                                                FontSize="12" FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                Visibility="Collapsed" Padding="12" Grid.Column="3"/>
+                                        <muxc:ProgressBar x:Name="ProgressBar"
+                                                          Value="{TemplateBinding Percentage}"
+                                                          IsIndeterminate="{TemplateBinding IsIndeterminate}"
+                                                          Grid.Row="3" Grid.ColumnSpan="4"/>
                                     </Grid>
                                 </ControlTemplate>
                             </Setter.Value>

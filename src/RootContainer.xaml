@@ -11,6 +11,26 @@
 
     <Grid.Resources>
         <ResourceDictionary>
+            <!-- From microsoft/microsoft-ui-xaml/dev/Materials/Acrylic/AcrylicBrush_19h1_themeresources.xaml -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <AcrylicBrush
+                        x:Key="NavigationViewDefaultPaneBackground"
+                        TintColor="#FCFCFC"
+                        TintOpacity="0.0"
+                        FallbackColor="#F9F9F9"
+                        BackgroundSource="Backdrop"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush
+                        x:Key="NavigationViewDefaultPaneBackground"
+                        TintColor="#2C2C2C"
+                        TintOpacity="0.15"
+                        FallbackColor="#2C2C2C"
+                        BackgroundSource="Backdrop"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            <!-- Created by self -->
             <Thickness x:Key="NavigationViewHeaderMargin">36,0,0,0</Thickness>
             <Thickness x:Key="NavigationViewMinimalHeaderMargin">-44,0,0,0</Thickness>
             <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
@@ -30,6 +50,11 @@
                          Grid.ColumnSpan="3"
                          muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
         <muxc:NavigationView.MenuItems>
+            <muxc:NavigationViewItem x:Uid="TaskListPage">
+                <muxc:NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xEA37;"/>
+                </muxc:NavigationViewItem.Icon>
+            </muxc:NavigationViewItem>
             <muxc:NavigationViewItem x:Uid="RegisterPage">
                 <muxc:NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE90F;"/>

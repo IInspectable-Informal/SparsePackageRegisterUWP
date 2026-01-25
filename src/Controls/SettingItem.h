@@ -22,10 +22,10 @@ namespace winrt::SparsePackageManager::Controls::implementation
         static Windows::UI::Xaml::DependencyProperty HeaderProperty();
 
     private:
-        static const Windows::UI::Xaml::Interop::TypeName sm_SettingItemType;
+        static const Windows::UI::Xaml::Interop::TypeName s_Type;
 
-        static const Windows::UI::Xaml::DependencyProperty sm_IconProperty;
-        static const Windows::UI::Xaml::DependencyProperty sm_HeaderProperty;
+        static const Windows::UI::Xaml::DependencyProperty s_IconProperty;
+        static const Windows::UI::Xaml::DependencyProperty s_HeaderProperty;
     };
 }
 

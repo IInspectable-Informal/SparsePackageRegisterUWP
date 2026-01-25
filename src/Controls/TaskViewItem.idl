@@ -1,0 +1,25 @@
+import "Data\TaskInfo.idl";
+
+namespace SparsePackageManager.Controls
+{
+    [default_interface]
+    runtimeclass TaskViewItem : Windows.UI.Xaml.Controls.Control
+    {
+        TaskViewItem();
+
+        String Title{ get; set; };
+        String Message{ get; set; };
+        Double Percentage{ get; set; };
+        Boolean IsIndeterminate{ get; set; };
+        SparsePackageManager.Data.TaskState State{ get; set; };
+
+        CloseRequestedCallback CloseRequested{ get; set; };
+
+        static Windows.UI.Xaml.DependencyProperty TitleProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty MessageProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty PercentageProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty IsIndeterminateProperty{ get; };
+    }
+
+    delegate void CloseRequestedCallback();
+}

@@ -5,8 +5,6 @@
 #include "helpers.h"
 #include "TitleBarDefaultColors.h"
 
-#include <winrt/Windows.UI.Popups.h>
-
 using namespace winrt;
 using namespace Windows::ApplicationModel;
 using namespace Windows::Foundation;
@@ -15,27 +13,23 @@ using namespace Windows::UI::ViewManagement;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Interop;
+using namespace Windows::UI::Xaml::Media::Animation;
 using namespace Windows::UI::Xaml::Navigation;
 namespace muxc = Microsoft::UI::Xaml::Controls;
 
-using namespace Windows::UI::Popups;
-
 namespace winrt::SparsePackageManager::implementation
 {
-    IAsyncAction ShowMsgDialogAsync(hstring const& msg)
-    {
-        co_await MessageDialog(msg).ShowAsync();
-    }
-
     RootContainer::RootContainer(Windows::UI::ViewManagement::ApplicationView const& view) : 
         m_ViewTitleBar(view.TitleBar()) ,
-        m_Dialog(local::Dialog::Current())
+        m_Dialog(local::Dialog::Current()) ,
+        m_TypeList({ g_TaskListPageType , g_RegisterPageType, g_PackageListPageType })
     {
         InitializeComponent();
         TitleBar().Height(RootNavigationView().CompactPaneLength());
         auto items = RootNavigationView().MenuItems();
-        items.GetAt(0).as<muxc::NavigationViewItem>().Tag(box_value(g_RegisterPageType));
-        items.GetAt(1).as<muxc::NavigationViewItem>().Tag(box_value(g_PackageListPageType));
+        uint32_t size = items.Size();
+        for (uint32_t i = 0; i < size; ++i)
+        { items.GetAt(i).as<FrameworkElement>().Tag(box_value(m_TypeList.at(i))); }
 
         IsPaneOnTop(AppDC.Values().Lookup(L"IsPaneOnTop").as<bool>());
     }
@@ -43,8 +37,9 @@ namespace winrt::SparsePackageManager::implementation
     //Handlers
     void RootContainer::ThemeChanged(FrameworkElement const& sender, IInspectable const&)
     {
-        m_Dialog.RequestedTheme(sender.ActualTheme());
-        if (sender.ActualTheme() == ElementTheme::Light)
+        auto theme = sender.ActualTheme();
+        m_Dialog.RequestedTheme(theme);
+        if (theme == ElementTheme::Light)
         {
             m_ViewTitleBar.ButtonForegroundColor(Colors::Black());
             m_ViewTitleBar.ButtonInactiveForegroundColor(Colors::DarkGray());
@@ -60,13 +55,18 @@ namespace winrt::SparsePackageManager::implementation
     {
         Window::Current().SetTitleBar(sender.as<UIElement>());
 
-        if (AppDC.Values().HasKey(L"LastUsedPage"))
+        auto values = AppDC.Values();
+        if (values.HasKey(L"LastUsedPage") && values.HasKey(L"PageTypeKind"))
         {
-            NavigateTo(AppDC.Values().Lookup(L"LastUsedPage").as<hstring>());
+            TypeName type
+            {
+                values.Lookup(L"LastUsedPage").as<hstring>(),
+                static_cast<TypeKind>(values.Lookup(L"PageTypeKind").as<int>())
+            }; Navigate(type);
         }
         else
         {
-            NavigateTo(g_RegisterPageType.Name);
+            Navigate(g_TaskListPageType);
         }
     }
 
@@ -92,15 +92,11 @@ namespace winrt::SparsePackageManager::implementation
         auto container = e.InvokedItemContainer();
         if (!container.IsSelected())
         {
+            TypeName pageType{0};
             if (e.IsSettingsInvoked())
-            {
-                rootFrame().Navigate(g_SettingsPageType, nullptr, e.RecommendedNavigationTransitionInfo());
-            }
-            else
-            {
-                auto page_class = container.as<muxc::NavigationViewItem>().Tag().as<TypeName>();
-                rootFrame().Navigate(page_class, nullptr, e.RecommendedNavigationTransitionInfo());
-            }
+            { pageType = g_SettingsPageType; }
+            else { pageType = container.as<FrameworkElement>().Tag().as<TypeName>(); }
+            rootFrame().Navigate(pageType, nullptr, e.RecommendedNavigationTransitionInfo());
         }
     }
 
@@ -112,8 +108,6 @@ namespace winrt::SparsePackageManager::implementation
             sender.Header(box_value(GetLocalizedStringFromPackageAndSubtree(
                 GetWinUIDependencyPackage(), L"Microsoft.UI.Xaml/Resources", L"SettingsButtonName")));
         } else { sender.Header(item.Content()); }
-        AppDC.Values().Insert(L"LastUsedPage", box_value(e.IsSettingsSelected() ?
-            g_SettingsPageType.Name : item.Tag().as<TypeName>().Name));
     }
 
     void RootContainer::GoBackRequested(muxc::NavigationView const&, muxc::NavigationViewBackRequestedEventArgs const&)
@@ -125,48 +119,66 @@ namespace winrt::SparsePackageManager::implementation
     void RootContainer::FrameNavigated(IInspectable const&, NavigationEventArgs const& e)
     {
         RootNavigationView().IsBackEnabled(rootFrame().CanGoBack());
+        auto page = rootFrame().Content();
+        auto pageType = page.as<ITypeProvider>().Type();
         if (e.NavigationMode() == NavigationMode::Back)
         {
-            auto page = rootFrame().Content();
-            auto pageType = page.as<ITypeProvider>().Type();
+            auto view = RootNavigationView();
             if (pageType == g_SettingsPageType)
             {
-                RootNavigationView().SelectedItem(RootNavigationView().SettingsItem());
+                view.SelectedItem(RootNavigationView().SettingsItem());
             }
             else
             {
-                for (auto const& item : RootNavigationView().MenuItems())
-                {
-                    if (item.as<muxc::NavigationViewItem>().Tag().as<TypeName>() == pageType)
-                    {
-                        RootNavigationView().SelectedItem(item);
-                        break;
-                    }
-                }
+                auto currentit = std::find(m_TypeList.begin(), m_TypeList.end(), pageType);
+                uint32_t currentPos = static_cast<uint32_t>(std::distance(m_TypeList.begin(), currentit));
+                view.SelectedItem(view.MenuItems().GetAt(currentPos));
             }
         }
+        auto values = AppDC.Values();
+        values.Insert(L"LastUsedPage", box_value(pageType.Name));
+        values.Insert(L"PageTypeKind", box_value(static_cast<int>(pageType.Kind)));
     }
 
-    //Private functions
-    void RootContainer::NavigateTo(hstring const& typeName)
+    //INavigate
+    bool RootContainer::Navigate(TypeName const& pageType)
     {
-        if (typeName == g_SettingsPageType.Name)
+        auto page = rootFrame().Content();
+        auto view = RootNavigationView();
+        if (page && IsPaneOnTop())
         {
-            rootFrame().Navigate(g_SettingsPageType);
-            RootNavigationView().SelectedItem(RootNavigationView().SettingsItem());
+            auto info = SlideNavigationTransitionInfo();
+            if (pageType == g_SettingsPageType)
+            {
+                info.Effect(SlideNavigationTransitionEffect::FromRight);
+                view.SelectedItem(view.SettingsItem());
+            }
+            else
+            {
+                auto current = page.as<ITypeProvider>().Type();
+                auto currentit = std::find(m_TypeList.begin(), m_TypeList.end(), current);
+                auto nextit = std::find(m_TypeList.begin(), m_TypeList.end(), pageType);
+                uint64_t currentPos = std::distance(m_TypeList.begin(), currentit);
+                uint64_t nextPos = std::distance(m_TypeList.begin(), nextit);
+                auto cmp = nextPos <=> currentPos;
+                if (cmp < 0) // nextPos < currentPos
+                { info.Effect(SlideNavigationTransitionEffect::FromLeft); }
+                else if (cmp > 0) // nextPos > currentPos
+                { info.Effect(SlideNavigationTransitionEffect::FromRight); }
+                else { return false; }
+                view.SelectedItem(view.MenuItems().GetAt(static_cast<uint32_t>(nextPos)));
+            } return rootFrame().Navigate(pageType, nullptr, info);
         }
         else
         {
-            for (auto const& item : RootNavigationView().MenuItems())
+            if (pageType == g_SettingsPageType)
+            { view.SelectedItem(view.SettingsItem()); }
+            else
             {
-                auto pageType = item.as<muxc::NavigationViewItem>().Tag().as<TypeName>();
-                if (pageType.Name == typeName)
-                {
-                    rootFrame().Navigate(pageType);
-                    RootNavigationView().SelectedItem(item);
-                    break;
-                }
-            }
+                auto nextit = std::find(m_TypeList.begin(), m_TypeList.end(), pageType);
+                uint32_t nextPos = static_cast<uint32_t>(std::distance(m_TypeList.begin(), nextit));
+                view.SelectedItem(view.MenuItems().GetAt(nextPos)));
+            } return rootFrame().Navigate(pageType, nullptr, EntranceNavigationTransitionInfo());
         }
     }
 
@@ -182,25 +194,25 @@ namespace winrt::SparsePackageManager::implementation
     }
 
     //Static Properties
-    winrt::slim_mutex RootContainer::sm_mutex;
-    RootContainerMap RootContainer::sm_instances;
+    winrt::slim_mutex RootContainer::s_mutex;
+    RootContainerMap RootContainer::s_instances;
 
     local::RootContainer RootContainer::Current()
     {
-        winrt::slim_lock_guard lock(sm_mutex);
+        winrt::slim_lock_guard lock(s_mutex);
         auto view = ApplicationView::GetForCurrentView();
         int viewId = view.Id();
             
-        auto it = sm_instances.find(viewId);
-        if (it != sm_instances.end())
+        auto it = s_instances.find(viewId);
+        if (it != s_instances.end())
         {
             if (auto instance = it->second.get())
             { return instance; }
-            sm_instances.erase(it);
+            s_instances.erase(it);
         }
             
         auto newInstance = winrt::make<implementation::RootContainer>(view);
-        sm_instances.emplace(viewId, newInstance);
+        s_instances.emplace(viewId, newInstance);
         return newInstance;
     }
 

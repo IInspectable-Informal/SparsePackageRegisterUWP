@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "constants.h"
+#include "helpers.h"
 
 //Standard Library
 #include <mutex>
@@ -14,6 +15,7 @@ using namespace Windows::ApplicationModel::Resources::Core;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Windows::Management::Deployment;
+using namespace Windows::UI::ViewManagement;
 
 namespace winrt
 {
@@ -37,7 +39,7 @@ namespace winrt
     {
         if (!pkg) { return L""; }
 
-        const auto&  pkgName = pkg.Id().Name();
+        const auto& pkgName = pkg.Id().Name();
         if (!g_AllResMap.HasKey(pkgName)) { return L""; }
 
         const auto& pkgGlobalRes = g_AllResMap.Lookup(pkgName);
@@ -89,17 +91,26 @@ namespace winrt
     std::shared_ptr<PackageManager> GetPackageManagerForCurrentThread()
     {
         DWORD threadId = GetCurrentThreadId();
-        std::shared_ptr<PackageManager> pm;
 
         std::lock_guard<std::mutex> lock(g_PMMutex);
         auto iterator = g_PMMap.find(threadId);
         if (iterator == g_PMMap.end())
         {
-            PackageManager pmObj;
-            iterator = g_PMMap.try_emplace(threadId, std::make_shared<PackageManager>(std::move(pmObj))).first;
-        }
-        pm = iterator->second;
+            PackageManager pm;
+            iterator = g_PMMap.try_emplace(threadId, std::make_shared<PackageManager>(std::move(pm))).first;
+        } return iterator->second;
+    }
 
-        return pm;
+    std::mutex g_TILMMutex;
+    std::map<int, TaskInfoList> g_TaskInfoListMap;
+    TaskInfoList GetTaskInfoListForCurrentThread()
+    {
+        int id = ApplicationView::GetForCurrentView().Id();
+        std::lock_guard<std::mutex> lock(g_TILMMutex);
+        auto it = g_TaskInfoListMap.find(id);
+        if (it == g_TaskInfoListMap.end())
+        {
+            it = g_TaskInfoListMap.try_emplace(id, single_threaded_observable_vector<locald::TaskInfo>()).first;
+        } return it->second;
     }
 }

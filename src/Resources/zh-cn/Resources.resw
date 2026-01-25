@@ -67,11 +67,24 @@
   </data>
   <!-- Resources -->
   <!-- RootContainer.xaml -->
+  <data name="TaskListPage.Content" xml:space="preserve">
+    <value>任务列表</value>
+  </data>
   <data name="RegisterPage.Content" xml:space="preserve">
     <value>注册器</value>
   </data>
   <data name="PackageListPage.Content" xml:space="preserve">
     <value>稀疏包列表</value>
+  </data>
+  <!-- Pages.TaskListPage.xaml -->
+  <data name="NewTaskText.Text" xml:space="preserve">
+    <value>新建任务：</value>
+  </data>
+  <data name="AddPackage.Content" xml:space="preserve">
+    <value>注册包</value>
+  </data>
+  <data name="RemovePackage.Content" xml:space="preserve">
+    <value>移除包</value>
   </data>
   <!-- Pages.RegisterPage.xaml -->
   <data name="BasicArgs.Text" xml:space="preserve">
@@ -133,7 +146,7 @@
     <value>应用包全名：</value>
   </data>
   <data name="UserExternalPath.Text" xml:space="preserve">
-    <value>每用户外部路径：</value>
+    <value>本用户外部路径：</value>
   </data>
   <data name="MachineExternalPath.Text" xml:space="preserve">
     <value>本机外部路径：</value>
@@ -191,7 +204,109 @@
   <data name="ContentDialogCancel" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="PackagesCountReportStr" xml:space="preserve">
-    <value>已找到 %d 个稀疏包</value>
+  <data name="PackagesCountReportText" xml:space="preserve">
+    <value>已找到 {:d} 个稀疏包</value>
   </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="ErrorHeaderText" xml:space="preserve">
+    <value>发生了错误，错误信息如下：</value>
+  </data>
+
+  <!-- New Resources -->
+  <data name="PathErrorText1" xml:space="preserve">
+    <value>MSIX 稀疏包路径不能为空！</value>
+  </data>
+  <data name="PathErrorText2" xml:space="preserve">
+    <value>桌面应用目录路径不能为空！</value>
+  </data>
+  <data name="UriErrorText1" xml:space="preserve">
+    <value>MSIX 稀疏包路径使用了不支持的协议：{}，&#x000A;应为以下协议：http，https，ftp，file。</value>
+  </data>
+  <data name="UriErrorText2" xml:space="preserve">
+    <value>桌面应用目录路径必须指向本地！</value>
+  </data>
+  <data name="RegisteringTitle" xml:space="preserve">
+    <value>正在注册</value>
+  </data>
+  <data name="RegisterSucceededTitle" xml:space="preserve">
+    <value>注册成功</value>
+  </data>
+  <data name="RegisterFailedTitle" xml:space="preserve">
+    <value>注册失败</value>
+  </data>
+  <data name="RegisterErrorTitle" xml:space="preserve">
+    <value>注册时发生错误</value>
+  </data>
+  <data name="RemovingTitle" xml:space="preserve">
+    <value>正在移除</value>
+  </data>
+  <data name="RemoveSucceededTitle" xml:space="preserve">
+    <value>移除成功</value>
+  </data>
+  <data name="RemoveFailedTitle" xml:space="preserve">
+    <value>移除失败</value>
+  </data>
+  <data name="RemoveErrorTitle" xml:space="preserve">
+    <value>移除时发生错误</value>
+  </data>
+  <data name="AddStartingMessage" xml:space="preserve">
+    <value>即将开始为外部路径 {0}&#x000A;注册稀疏包 {1}&#x000A;请耐心等待……</value>
+  </data>
+  <data name="RegisterStartingMessage" xml:space="preserve">
+    <value>即将开始为外部路径 {0}&#x000A;注册清单文件 {1}&#x000A;请耐心等待……</value>
+  </data>
+  <data name="RemoveStartingMessage" xml:space="preserve">
+    <value>即将开始移除稀疏包 {0}&#x000A;请耐心等待……</value>
+  </data>
+  <data name="AddProgressMessage" xml:space="preserve">
+    <value>正在为外部路径 {0}&#x000A;注册稀疏包 {1}&#x000A;请耐心等待……（已完成：{2:.0f} %）</value>
+  </data>
+  <data name="AddProgressWaitingMessage" xml:space="preserve">
+    <value>等待为外部路径 {0}&#x000A;注册稀疏包 {1}&#x000A;请耐心等待……（已完成：{2:.0f} %）</value>
+  </data>
+  <data name="RegisterProgressMessage" xml:space="preserve">
+    <value>正在为外部路径 {0}&#x000A;注册清单文件 {1}&#x000A;请耐心等待……（已完成：{2:.0f} %）</value>
+  </data>
+  <data name="RegisterProgressWaitingMessage" xml:space="preserve">
+    <value>等待为外部路径 {0}&#x000A;注册清单文件 {1}&#x000A;请耐心等待……（已完成：{2:.0f} %）</value>
+  </data>
+  <data name="RemoveProgressMessage" xml:space="preserve">
+    <value>正在移除稀疏包 {0}&#x000A;请耐心等待……（已完成：{1:.0f} %）</value>
+  </data>
+  <data name="RemoveProgressWaitingMessage" xml:space="preserve">
+    <value>等待移除稀疏包 {0}&#x000A;请耐心等待……（已完成：{1:.0f} %）</value>
+  </data>
+  <data name="AddSucceededMessage" xml:space="preserve">
+    <value>为外部路径 {0}&#x000A;注册稀疏包 {1} 成功！</value>
+  </data>
+  <data name="AddFailedMessage" xml:space="preserve">
+    <value>为外部路径 {0}&#x000A;注册稀疏包 {1} 失败！&#x000A;原因如下：&#x000A;{2}&#x000A;HRESULT：0x{3:08X}&#x000A;事件Id：{{{4:U}}}</value>
+  </data>
+  <data name="AddErrorMessage" xml:space="preserve">
+    <value>为外部路径 {0}&#x000A;注册稀疏包 {1} 时发生错误！&#x000A;原因如下：&#x000A;{2}&#x000A;HRESULT：0x{3:08X}</value>
+  </data>
+  <data name="RegisterSucceededMessage" xml:space="preserve">
+    <value>为外部路径 {0}&#x000A;注册清单文件 {1} 成功！</value>
+  </data>
+  <data name="RegisterFailedMessage" xml:space="preserve">
+    <value>为外部路径 {0}&#x000A;注册清单文件 {1} 失败！&#x000A;原因如下：&#x000A;{2}&#x000A;HRESULT：0x{3:08X}&#x000A;事件Id：{{{4:U}}}</value>
+  </data>
+  <data name="RegisterErrorMessage" xml:space="preserve">
+    <value>为外部路径 {0}&#x000A;注册清单文件 {1} 时发生错误！&#x000A;原因如下：&#x000A;{2}&#x000A;HRESULT：0x{3:08X}</value>
+  </data>
+  <data name="RemoveSucceededMessage" xml:space="preserve">
+    <value>移除稀疏包 {0} 成功！</value>
+  </data>
+  <data name="RemoveFailedMessage" xml:space="preserve">
+    <value>移除稀疏包 {0} 失败！&#x000A;原因如下：&#x000A;{1}&#x000A;HRESULT：0x{2:08X}&#x000A;事件Id：{{{3:U}}}</value>
+  </data>
+  <data name="RemoveErrorMessage" xml:space="preserve">
+    <value>移除稀疏包 {0} 时发生错误！&#x000A;原因如下：&#x000A;{1}&#x000A;HRESULT：0x{2:08X}</value>
+  </data>
+
 </root>
