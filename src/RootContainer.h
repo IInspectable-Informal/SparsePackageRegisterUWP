@@ -3,7 +3,9 @@
 
 namespace winrt::SparsePackageManager::implementation
 {
-    using RootContainerMap = std::map<int, winrt::weak_ref<local::RootContainer>>;
+    struct RootContainer;
+
+    using RootContainerMap = std::map<int, winrt::com_ptr<implementation::RootContainer>>;
 
     struct RootContainer : RootContainerT<RootContainer>
     {
@@ -23,10 +25,12 @@ namespace winrt::SparsePackageManager::implementation
 
         //Properties
         bool IsPaneOnTop();
-        void IsPaneOnTop(bool const&);
+        void IsPaneOnTop(bool);
 
         //INavigate
         bool Navigate(Windows::UI::Xaml::Interop::TypeName const&);
+
+        ~RootContainer();
 
         //Static Properties
         static local::RootContainer Current();
@@ -37,9 +41,10 @@ namespace winrt::SparsePackageManager::implementation
         static hstring Version();
 
     private:
-        std::vector<Windows::UI::Xaml::Interop::TypeName> m_TypeList;
+        std::vector<Windows::UI::Xaml::Interop::TypeName> m_TypeList; const int m_Id;
         const Windows::UI::ViewManagement::ApplicationViewTitleBar m_ViewTitleBar;
         const local::Dialog m_Dialog;
+        winrt::slim_mutex m_NavigationMutex;
 
         static winrt::slim_mutex s_mutex;
         static RootContainerMap s_instances;

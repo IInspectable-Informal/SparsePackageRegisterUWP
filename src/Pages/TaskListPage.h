@@ -3,8 +3,6 @@
 
 namespace winrt::SparsePackageManager::Pages::implementation
 {
-    using PageMap = std::map<winrt::weak_ref<Windows::UI::Xaml::Controls::Frame>, localp::TaskListPage>;
-
     struct TaskListPage : TaskListPageT<TaskListPage>
     {
     public:
@@ -12,6 +10,7 @@ namespace winrt::SparsePackageManager::Pages::implementation
 
         //Handlers
         void NavigateToPageRequested(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
+        void RemoveItemRequested(Microsoft::UI::Xaml::Controls::SwipeItem const&, Microsoft::UI::Xaml::Controls::SwipeItemInvokedEventArgs const&);
 
         //ITypeProvider
         Windows::UI::Xaml::Interop::TypeName Type();

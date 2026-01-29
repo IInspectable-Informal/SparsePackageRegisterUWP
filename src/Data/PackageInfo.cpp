@@ -20,8 +20,7 @@ namespace winrt::SparsePackageManager::Data::implementation
         m_PackageFullName(pkg.Id().FullName()),
         m_UserExternalPath(pkg.UserExternalPath()),
         m_MachineExternalPath(pkg.MachineExternalPath()),
-        m_Manifest(manifest),
-        m_ExternalLocation(pkg.EffectiveExternalLocation())
+        m_Manifest(manifest)
     {
         
     }
@@ -52,9 +51,6 @@ namespace winrt::SparsePackageManager::Data::implementation
 
     StorageFile PackageInfo::Manifest()
     { return m_Manifest; }
-
-    StorageFolder PackageInfo::ExternalLocation()
-    { return m_ExternalLocation; }
 
     //Methods
     hstring PackageInfo::GetDeveloperAndInstalledDateCombination()

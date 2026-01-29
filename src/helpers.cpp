@@ -2,6 +2,9 @@
 #include "constants.h"
 #include "helpers.h"
 
+//WinRT
+#include <winrt/Windows.UI.Notifications.h>
+
 //Standard Library
 #include <mutex>
 
@@ -112,5 +115,22 @@ namespace winrt
         {
             it = g_TaskInfoListMap.try_emplace(id, single_threaded_observable_vector<locald::TaskInfo>()).first;
         } return it->second;
+    }
+
+    using XmlDocument = Windows::Data::Xml::Dom::XmlDocument;
+    using ToastNotificationManager = Windows::UI::Notifications::ToastNotificationManager;
+    using ToastNotifier = Windows::UI::Notifications::ToastNotifier;
+    using ToastNotification = Windows::UI::Notifications::ToastNotification;
+
+    void SendToast(hstring const& title, hstring const& content)
+    {
+        hstring toastXmlText = std::format(
+            #include "ToastTemplate.txt"
+            , title, content, GetLocalizedString(L"DismissText")
+        ).c_str();
+        auto toastXml = XmlDocument();
+        toastXml.LoadXml(toastXmlText);
+        auto notifier = ToastNotificationManager::CreateToastNotifier();
+        notifier.Show(ToastNotification(toastXml));
     }
 }

@@ -31,9 +31,9 @@ namespace winrt::SparsePackageManager::Controls::implementation
     void TaskViewItem::CloseButtonClick(IInspectable const&, RoutedEventArgs const&)
     { m_CloseRequested(); }
 
-    void TaskViewItem::RefreshVisualStateRequested(IInspectable const&, RoutedEventArgs const&)
+    void TaskViewItem::UpdateVisualStateRequested(IInspectable const&, RoutedEventArgs const&)
     {
-        RefreshVisualState();
+        UpdateState();
         Loaded(m_LoadedToken);
         m_LoadedToken.value = 0;
     }
@@ -50,19 +50,16 @@ namespace winrt::SparsePackageManager::Controls::implementation
         { m_RootGrid = nullptr; }
     }
 
-    void TaskViewItem::RefreshVisualState()
+    bool TaskViewItem::UpdateState()
     {
         switch (m_State)
         {
             case locald::TaskState::Working:
-                VisualStateManager::GoToState(*this, L"Infomational", false);
-                break;
+                return VisualStateManager::GoToState(*this, L"Infomational", false);
             case locald::TaskState::Succeeded:
-                VisualStateManager::GoToState(*this, L"Success", false);
-                break;
+                return VisualStateManager::GoToState(*this, L"Success", false);
             case locald::TaskState::Failed:
-                VisualStateManager::GoToState(*this, L"Error", false);
-                break;
+                return VisualStateManager::GoToState(*this, L"Error", false);
         }
     }
 
@@ -105,10 +102,8 @@ namespace winrt::SparsePackageManager::Controls::implementation
     void TaskViewItem::State(locald::TaskState value)
     {
         m_State = value;
-        if (IsLoaded())
-        { RefreshVisualState(); }
-        else if (m_LoadedToken.value != 0)
-        { m_LoadedToken = Loaded({ this, &TaskViewItem::RefreshVisualStateRequested }); }
+        if (!(IsLoaded() && UpdateState()) && m_LoadedToken.value == 0)
+        { m_LoadedToken = Loaded({ this, &TaskViewItem::UpdateVisualStateRequested }); }
     }
 
     localc::CloseRequestedCallback TaskViewItem::CloseRequested()

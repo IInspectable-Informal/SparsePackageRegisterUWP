@@ -1,0 +1,20 @@
+﻿LR"(<toast scenario="reminder">
+
+  <audio src='ms-winsoundevent:Notification.Looping.Alarm'/>
+
+  <visual>
+    <binding template="ToastGeneric">
+      <text>{0}</text>
+      <text>{1}</text>
+    </binding>
+  </visual>
+
+  <actions>
+
+    <action
+      activationType="system"
+      arguments="dismiss"
+      content="{2}"/>
+
+  </actions>
+</toast>)"

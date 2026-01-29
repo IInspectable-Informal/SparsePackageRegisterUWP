@@ -17,7 +17,6 @@ namespace winrt::SparsePackageManager::Data::implementation
         hstring MachineExternalPath();
         Windows::UI::Xaml::Media::ImageSource Logo();
         Windows::Storage::StorageFile Manifest();
-        Windows::Storage::StorageFolder ExternalLocation();
 
         //Methods
         hstring GetDeveloperAndInstalledDateCombination();
@@ -38,7 +37,6 @@ namespace winrt::SparsePackageManager::Data::implementation
         const hstring m_MachineExternalPath;
         const Windows::UI::Xaml::Media::Imaging::BitmapImage m_Logo;
         const Windows::Storage::StorageFile m_Manifest;
-        const Windows::Storage::StorageFolder m_ExternalLocation;
     };
 }
 

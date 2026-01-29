@@ -111,13 +111,15 @@ namespace winrt::SparsePackageManager::Pages::implementation
                     {
                         GetTaskInfoListForCurrentThread().InsertAt(0, item);
                         IsEnabled(true);
-                        co_await item.RunTaskAsync();
+                        if (co_await item.RunTaskAsync())
+                        { co_return; }
+                        else { local::RootContainer::Current().Navigate(g_TaskListPageType); }
                         co_return;
                     }
                     else
                     {
                         co_await m_Dialog.ShowErrorAsync(
-                            GetLocalizedString(L"PackageTamperedText"),
+                            GetLocalizedString(L"PackageTamperedText1"),
                             GetLocalizedString(L"ErrorHeaderText")
                         );
                     }

@@ -20,6 +20,18 @@
     <Midl Include="App.idl" />
     <Midl Include="Dialog.idl" />
     <Midl Include="RootContainer.idl" />
+    <Midl Include="Controls\SettingItem.idl">
+      <Filter>Controls</Filter>
+    </Midl>
+    <Midl Include="Controls\TaskViewItem.idl">
+      <Filter>Controls</Filter>
+    </Midl>
+    <Midl Include="Data\PackageInfo.idl">
+      <Filter>Data</Filter>
+    </Midl>
+    <Midl Include="Data\TaskInfo.idl">
+      <Filter>Data</Filter>
+    </Midl>
     <Midl Include="Pages\PackageListPage.idl">
       <Filter>Pages</Filter>
     </Midl>
@@ -39,6 +51,18 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="RootContainer.h" />
+    <ClInclude Include="Controls\SettingItem.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\TaskViewItem.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\PackageInfo.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\TaskInfo.h">
+      <Filter>Data</Filter>
+    </ClInclude>
     <ClInclude Include="Pages\PackageListPage.h">
       <Filter>Pages</Filter>
     </ClInclude>
@@ -53,6 +77,18 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="RootContainer.cpp" />
+    <ClCompile Include="Controls\SettingItem.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\TaskViewItem.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\PackageInfo.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\TaskInfo.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
     <ClCompile Include="Pages\PackageListPage.cpp">
       <Filter>Pages</Filter>
     </ClCompile>
@@ -76,6 +112,12 @@
     </Filter>
     <Filter Include="Assets\Tiles">
       <UniqueIdentifier>{19f77e11-5584-4f42-8b8b-d895079d83ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{0E7A9CC2-57D0-4C80-9E94-30AB4288581C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{96A772CB-8BA6-4B22-9DE0-77983AB7BE8D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pages">
       <UniqueIdentifier>{7E41067D-2E16-4C62-8C70-6B372F054BF3}</UniqueIdentifier>

@@ -21,6 +21,7 @@ namespace winrt::SparsePackageManager::implementation
 {
     RootContainer::RootContainer(Windows::UI::ViewManagement::ApplicationView const& view) : 
         m_ViewTitleBar(view.TitleBar()) ,
+        m_Id(view.Id()) ,
         m_Dialog(local::Dialog::Current()) ,
         m_TypeList({ g_TaskListPageType , g_RegisterPageType, g_PackageListPageType })
     {
@@ -92,7 +93,7 @@ namespace winrt::SparsePackageManager::implementation
         auto container = e.InvokedItemContainer();
         if (!container.IsSelected())
         {
-            TypeName pageType{0};
+            TypeName pageType{L""};
             if (e.IsSettingsInvoked())
             { pageType = g_SettingsPageType; }
             else { pageType = container.as<FrameworkElement>().Tag().as<TypeName>(); }
@@ -143,6 +144,7 @@ namespace winrt::SparsePackageManager::implementation
     //INavigate
     bool RootContainer::Navigate(TypeName const& pageType)
     {
+        winrt::slim_lock_guard lock{m_NavigationMutex};
         auto page = rootFrame().Content();
         auto view = RootNavigationView();
         if (page && IsPaneOnTop())
@@ -177,7 +179,7 @@ namespace winrt::SparsePackageManager::implementation
             {
                 auto nextit = std::find(m_TypeList.begin(), m_TypeList.end(), pageType);
                 uint32_t nextPos = static_cast<uint32_t>(std::distance(m_TypeList.begin(), nextit));
-                view.SelectedItem(view.MenuItems().GetAt(nextPos)));
+                view.SelectedItem(view.MenuItems().GetAt(nextPos));
             } return rootFrame().Navigate(pageType, nullptr, EntranceNavigationTransitionInfo());
         }
     }
@@ -186,11 +188,17 @@ namespace winrt::SparsePackageManager::implementation
     bool RootContainer::IsPaneOnTop()
     { return RootNavigationView().PaneDisplayMode() == muxc::NavigationViewPaneDisplayMode::Top; }
 
-    void RootContainer::IsPaneOnTop(bool const& value)
+    void RootContainer::IsPaneOnTop(bool value)
     {
         RootNavigationView().PaneDisplayMode(value ?
             muxc::NavigationViewPaneDisplayMode::Top : muxc::NavigationViewPaneDisplayMode::Auto);
         AppDC.Values().Insert(L"IsPaneOnTop", box_value(value));
+    }
+
+    RootContainer::~RootContainer()
+    {
+        m_TypeList.clear();
+        s_instances.erase(m_Id);
     }
 
     //Static Properties
@@ -199,21 +207,18 @@ namespace winrt::SparsePackageManager::implementation
 
     local::RootContainer RootContainer::Current()
     {
-        winrt::slim_lock_guard lock(s_mutex);
+        winrt::slim_lock_guard lock{s_mutex};
         auto view = ApplicationView::GetForCurrentView();
         int viewId = view.Id();
             
         auto it = s_instances.find(viewId);
-        if (it != s_instances.end())
+        if (it == s_instances.end())
         {
-            if (auto instance = it->second.get())
-            { return instance; }
-            s_instances.erase(it);
+            auto inst = winrt::make_self<implementation::RootContainer>(view);
+            it = s_instances.try_emplace(viewId, std::move(inst)).first;
         }
             
-        auto newInstance = winrt::make<implementation::RootContainer>(view);
-        s_instances.emplace(viewId, newInstance);
-        return newInstance;
+        return it->second.as<local::RootContainer>();
     }
 
     hstring RootContainer::AppName()

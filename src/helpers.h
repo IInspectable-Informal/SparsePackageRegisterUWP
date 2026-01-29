@@ -12,4 +12,6 @@ namespace winrt
     std::shared_ptr<Windows::Management::Deployment::PackageManager> GetPackageManagerForCurrentThread();
 
     TaskInfoList GetTaskInfoListForCurrentThread();
+
+    void SendToast(hstring const&, hstring const&);
 }

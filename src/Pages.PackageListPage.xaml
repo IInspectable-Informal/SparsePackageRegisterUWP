@@ -74,7 +74,7 @@
                                                     </MenuFlyoutItem>
                                                     <MenuFlyoutItem x:Uid="OpenExternalFolder"
                                                                     Click="LaunchIStorageItemRequested"
-                                                                    Tag="{x:Bind ExternalLocation}">
+                                                                    Tag="{x:Bind ExternalPath}">
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8DA;"/>
                                                         </MenuFlyoutItem.Icon>

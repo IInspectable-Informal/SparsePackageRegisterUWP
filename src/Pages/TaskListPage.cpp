@@ -9,7 +9,7 @@ using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Interop;
-using namespace Windows::UI::Xaml::Navigation;
+namespace muxc = Microsoft::UI::Xaml::Controls;
 
 namespace winrt::SparsePackageManager::Pages::implementation
 {
@@ -34,6 +34,9 @@ namespace winrt::SparsePackageManager::Pages::implementation
             } break;
         }
     }
+
+    void TaskListPage::RemoveItemRequested(muxc::SwipeItem const& sender, muxc::SwipeItemInvokedEventArgs const&)
+    { sender.CommandParameter().as<locald::TaskInfo>().RemovalCallback()(); }
 
     //ITypeProvider
     TypeName TaskListPage::Type()

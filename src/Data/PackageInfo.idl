@@ -12,7 +12,6 @@ namespace SparsePackageManager.Data
         String MachineExternalPath{ get; };
         Windows.UI.Xaml.Media.ImageSource Logo{ get; };
         Windows.Storage.StorageFile Manifest{ get; };
-        Windows.Storage.StorageFolder ExternalLocation{ get; };
 
         String GetDeveloperAndInstalledDateCombination();
 

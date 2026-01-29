@@ -49,10 +49,10 @@ namespace winrt::SparsePackageManager::Controls::implementation
         event_token m_LoadedToken{0};
 
         void CloseButtonClick(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
-        void RefreshVisualStateRequested(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
+        void UpdateVisualStateRequested(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
 
         void TryRemoveBindings();
-        void RefreshVisualState();
+        bool UpdateState();
 
         static const Windows::UI::Xaml::Interop::TypeName s_Type;
 

@@ -204,8 +204,14 @@
   <data name="ContentDialogCancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="EnumeratingText" xml:space="preserve">
+    <value>正在查找稀疏包……</value>
+  </data>
   <data name="PackagesCountReportText" xml:space="preserve">
     <value>已找到 {:d} 个稀疏包</value>
+  </data>
+  <data name="ErrorOnEnumeratingText" xml:space="preserve">
+    <value>查找稀疏包时发生错误</value>
   </data>
   <data name="ErrorTitle" xml:space="preserve">
     <value>错误</value>
@@ -213,11 +219,22 @@
   <data name="CloseButtonText" xml:space="preserve">
     <value>关闭</value>
   </data>
+  <data name="CloseItem.Text" xml:space="preserve">
+    <value>关闭</value>
+  </data>
   <data name="ErrorHeaderText" xml:space="preserve">
     <value>发生了错误，错误信息如下：</value>
   </data>
+  <data name="PackageTamperedText1" xml:space="preserve">
+    <value>本应用已损坏，无法使用“直接管理其他应用”功能，&#x000A;因为未在本程序包清单中声明 &lt;rescap:Capability Name=&quot;packageManagement&quot;/&gt; 受限功能！</value>
+  </data>
+  <data name="PackageTamperedText2" xml:space="preserve">
+    <value>本应用已损坏，无法使用“搜集有关其他应用的信息”功能，&#x000A;因为未在本程序包清单中声明 &lt;rescap:Capability Name=&quot;packageQuery&quot;/&gt; 受限功能！</value>
+  </data>
+  <data name="DismissText" xml:space="preserve">
+    <value>消除通知</value>
+  </data>
 
-  <!-- New Resources -->
   <data name="PathErrorText1" xml:space="preserve">
     <value>MSIX 稀疏包路径不能为空！</value>
   </data>

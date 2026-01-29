@@ -12,6 +12,19 @@
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="DeleteButtonBackground" Color="#FFC42B1C"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="DeleteButtonBackground" Color="#FFC42B1C"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid RowSpacing="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -24,20 +37,42 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock x:Uid="NewTaskText" VerticalAlignment="Center"/>
-            <Button x:Uid="AddPackage" Click="NavigateToPageRequested" Tag="0" HorizontalAlignment="Stretch" Grid.Column="1"/>
-            <Button x:Uid="RemovePackage" Click="NavigateToPageRequested" Tag="1" HorizontalAlignment="Stretch" Grid.Column="2"/>
+            <Button x:Uid="AddPackage" Click="NavigateToPageRequested" Tag="0"
+                    HorizontalAlignment="Stretch" Grid.Column="1"/>
+            <Button x:Uid="RemovePackage" Click="NavigateToPageRequested" Tag="1"
+                    HorizontalAlignment="Stretch" Grid.Column="2"/>
         </Grid>
         <ScrollViewer Padding="36,0,36,12" VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <muxc:ItemsRepeater x:Name="TaskViewList">
                 <muxc:ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="locald:TaskInfo">
-                        <localc:TaskViewItem 
-                            Title="{x:Bind Summary, Mode=OneWay}"
-                            Message="{x:Bind Detail, Mode=OneWay}"
-                            IsIndeterminate="{x:Bind IsWaiting, Mode=OneWay}"
-                            Percentage="{x:Bind Percentage, Mode=OneWay}"
-                            State="{x:Bind State, Mode=OneWay}"
-                            CloseRequested="{x:Bind RemovalCallback, Mode=OneWay}"/>
+                        <muxc:SwipeControl>
+                            <localc:TaskViewItem 
+                                Title="{x:Bind Summary, Mode=OneWay}"
+                                Message="{x:Bind Detail, Mode=OneWay}"
+                                IsIndeterminate="{x:Bind IsWaiting, Mode=OneWay}"
+                                Percentage="{x:Bind Percentage, Mode=OneWay}"
+                                State="{x:Bind State, Mode=OneWay}"
+                                CloseRequested="{x:Bind RemovalCallback}"/>
+                            <muxc:SwipeControl.RightItems>
+                                <muxc:SwipeItems Mode="Execute">
+                                    <muxc:SwipeItem x:Uid="CloseItem"
+                                        Invoked="RemoveItemRequested"
+                                        CommandParameter="{x:Bind}"
+                                        BehaviorOnInvoked="Close"
+                                        Background="{ThemeResource DeleteButtonBackground}"
+                                        Foreground="White">
+                                        <muxc:SwipeItem.IconSource>
+                                            <muxc:FontIconSource Glyph="&#xE8BB;"/>
+                                        </muxc:SwipeItem.IconSource>
+                                    </muxc:SwipeItem>
+                                </muxc:SwipeItems>
+                            </muxc:SwipeControl.RightItems>
+                            <muxc:SwipeControl.Transitions>
+                                <EntranceThemeTransition FromVerticalOffset="100"
+                                    IsStaggeringEnabled="True"/>
+                            </muxc:SwipeControl.Transitions>
+                        </muxc:SwipeControl>
                     </DataTemplate>
                 </muxc:ItemsRepeater.ItemTemplate>
                 <muxc:ItemsRepeater.Layout>
