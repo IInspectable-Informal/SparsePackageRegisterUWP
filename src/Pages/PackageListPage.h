@@ -13,6 +13,8 @@ namespace winrt::SparsePackageManager::Pages::implementation
         void RefreshByClickRequested(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
         fire_and_forget LaunchIStorageItemRequested(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
         fire_and_forget RemovePackageRequested(IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&);
+        fire_and_forget LaunchIStorageItemRequested2(Microsoft::UI::Xaml::Controls::SwipeItem const&, Microsoft::UI::Xaml::Controls::SwipeItemInvokedEventArgs const&);
+        fire_and_forget RemovePackageRequested2(Microsoft::UI::Xaml::Controls::SwipeItem const&, Microsoft::UI::Xaml::Controls::SwipeItemInvokedEventArgs const&);
 
         //ITypeProvider
         Windows::UI::Xaml::Interop::TypeName Type();
@@ -22,6 +24,9 @@ namespace winrt::SparsePackageManager::Pages::implementation
         const Windows::System::LauncherOptions options;
 
         local::Dialog m_Dialog;
+
+        Windows::Foundation::IAsyncAction LaunchIStorageItemRequestedImplAsync(IInspectable const&);
+        Windows::Foundation::IAsyncAction RemovePackageRequestedImplAsync(hstring const&);
     };
 }
 

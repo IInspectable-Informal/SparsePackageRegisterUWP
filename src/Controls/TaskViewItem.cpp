@@ -102,7 +102,9 @@ namespace winrt::SparsePackageManager::Controls::implementation
     void TaskViewItem::State(locald::TaskState value)
     {
         m_State = value;
-        if (!(IsLoaded() && UpdateState()) && m_LoadedToken.value == 0)
+        if (IsLoaded())
+        { UpdateState(); }
+        else if (m_LoadedToken.value == 0)
         { m_LoadedToken = Loaded({ this, &TaskViewItem::UpdateVisualStateRequested }); }
     }
 

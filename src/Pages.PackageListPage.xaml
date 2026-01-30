@@ -30,94 +30,126 @@
                 <muxc:ItemsRepeater x:Name="PkgListView">
                     <muxc:ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="locald:PackageInfo">
-                            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                                <muxc:Expander.Header>
-                                    <Grid ColumnSpacing="16">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Source="{x:Bind Logo}" Width="48" Grid.RowSpan="3"/>
-                                        <Grid ColumnSpacing="8" Grid.Column="1">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
+                            <muxc:SwipeControl>
+                                <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                    <muxc:Expander.Header>
+                                        <Grid ColumnSpacing="16">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{x:Bind DisplayName}" TextWrapping="Wrap"
-                                                       Grid.ColumnSpan="2"/>
-                                            <TextBlock Text="{x:Bind GetDeveloperAndInstalledDateCombination()}"
-                                                       TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"
-                                                       Grid.Row="1" Grid.ColumnSpan="2"/>
-                                            <TextBlock x:Uid="ExternalPath" Style="{StaticResource CaptionTextBlockStyle}"
-                                                       Grid.Row="2"/>
-                                            <TextBlock Text="{x:Bind ExternalPath}" TextWrapping="Wrap"
-                                                       Style="{StaticResource CaptionTextBlockStyle}"
-                                                       Grid.Row="2" Grid.Column="1"/>
+                                            <Image Source="{x:Bind Logo}" Width="48" Grid.RowSpan="3"/>
+                                            <Grid ColumnSpacing="8" Grid.Column="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{x:Bind DisplayName}" TextWrapping="Wrap"
+                                                           Grid.ColumnSpan="2"/>
+                                                <TextBlock Text="{x:Bind GetDeveloperAndInstalledDateCombination()}"
+                                                           TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"
+                                                           Grid.Row="1" Grid.ColumnSpan="2"/>
+                                                <TextBlock x:Uid="ExternalPath" Style="{StaticResource CaptionTextBlockStyle}"
+                                                           Grid.Row="2"/>
+                                                <TextBlock Text="{x:Bind ExternalPath}" TextWrapping="Wrap"
+                                                           Style="{StaticResource CaptionTextBlockStyle}"
+                                                           Grid.Row="2" Grid.Column="1"/>
+                                            </Grid>
+                                            <Button Content="&#xE712;" FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                    Background="Transparent" BorderThickness="0"
+                                                    Padding="9" Grid.RowSpan="3" Grid.Column="3">
+                                                <Button.Flyout>
+                                                    <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                                        <MenuFlyoutItem x:Uid="OpenManifest"
+                                                                        Click="LaunchIStorageItemRequested"
+                                                                        Tag="{x:Bind Manifest}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon Glyph="&#xE8E5;"/>
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                        <MenuFlyoutItem x:Uid="OpenExternalFolder"
+                                                                        Click="LaunchIStorageItemRequested"
+                                                                        Tag="{x:Bind ExternalPath}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon Glyph="&#xE8DA;"/>
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                        <MenuFlyoutItem x:Uid="Remove"
+                                                                        Click="RemovePackageRequested"
+                                                                        Tag="{x:Bind PackageFullName}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon Glyph="&#xE738;"/>
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                    </MenuFlyout>
+                                                </Button.Flyout>
+                                            </Button>
                                         </Grid>
-                                        <Button Content="&#xE712;" FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                Background="Transparent" BorderThickness="0"
-                                                Padding="9" Grid.RowSpan="3" Grid.Column="3">
-                                            <Button.Flyout>
-                                                <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                                    <MenuFlyoutItem x:Uid="OpenManifest"
-                                                                    Click="LaunchIStorageItemRequested"
-                                                                    Tag="{x:Bind Manifest}">
-                                                        <MenuFlyoutItem.Icon>
-                                                            <FontIcon Glyph="&#xE8E5;"/>
-                                                        </MenuFlyoutItem.Icon>
-                                                    </MenuFlyoutItem>
-                                                    <MenuFlyoutItem x:Uid="OpenExternalFolder"
-                                                                    Click="LaunchIStorageItemRequested"
-                                                                    Tag="{x:Bind ExternalPath}">
-                                                        <MenuFlyoutItem.Icon>
-                                                            <FontIcon Glyph="&#xE8DA;"/>
-                                                        </MenuFlyoutItem.Icon>
-                                                    </MenuFlyoutItem>
-                                                    <MenuFlyoutItem x:Uid="Remove"
-                                                                    Click="RemovePackageRequested"
-                                                                    Tag="{x:Bind PackageFullName}">
-                                                        <MenuFlyoutItem.Icon>
-                                                            <FontIcon Glyph="&#xE738;"/>
-                                                        </MenuFlyoutItem.Icon>
-                                                    </MenuFlyoutItem>
-                                                </MenuFlyout>
-                                            </Button.Flyout>
-                                        </Button>
+                                    </muxc:Expander.Header>
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Uid="PackageFullName"/>
+                                        <TextBlock Text="{x:Bind PackageFullName}"
+                                                   TextWrapping="Wrap" IsTextSelectionEnabled="True"
+                                                   Grid.Column="1"/>
+                                        <TextBlock x:Uid="UserExternalPath" Grid.Row="1"/>
+                                        <TextBlock Text="{x:Bind UserExternalPath}"
+                                                   TextWrapping="Wrap" IsTextSelectionEnabled="True"
+                                                   Grid.Row="1" Grid.Column="1"/>
+                                        <TextBlock x:Uid="MachineExternalPath" Grid.Row="2"/>
+                                        <TextBlock Text="{x:Bind MachineExternalPath}"
+                                                   TextWrapping="Wrap" IsTextSelectionEnabled="True"
+                                                   Grid.Row="2" Grid.Column="1"/>
                                     </Grid>
-                                </muxc:Expander.Header>
-                                <Grid ColumnSpacing="8">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock x:Uid="PackageFullName"/>
-                                    <TextBlock Text="{x:Bind PackageFullName}"
-                                               TextWrapping="Wrap" IsTextSelectionEnabled="True"
-                                               Grid.Column="1"/>
-                                    <TextBlock x:Uid="UserExternalPath" Grid.Row="1"/>
-                                    <TextBlock Text="{x:Bind UserExternalPath}"
-                                               TextWrapping="Wrap" IsTextSelectionEnabled="True"
-                                               Grid.Row="1" Grid.Column="1"/>
-                                    <TextBlock x:Uid="MachineExternalPath" Grid.Row="2"/>
-                                    <TextBlock Text="{x:Bind MachineExternalPath}"
-                                               TextWrapping="Wrap" IsTextSelectionEnabled="True"
-                                               Grid.Row="2" Grid.Column="1"/>
-                                </Grid>
-                                <muxc:Expander.Transitions>
+                                </muxc:Expander>
+                                <muxc:SwipeControl.LeftItems>
+                                    <muxc:SwipeItems Mode="Reveal">
+                                        <muxc:SwipeItem x:Uid="OpenManifest"
+                                            Invoked="LaunchIStorageItemRequested2"
+                                            CommandParameter="{x:Bind Manifest}">
+                                            <muxc:SwipeItem.IconSource>
+                                                <muxc:FontIconSource Glyph="&#xE8E5;"/>
+                                            </muxc:SwipeItem.IconSource>
+                                        </muxc:SwipeItem>
+                                        <muxc:SwipeItem x:Uid="OpenExternalFolder"
+                                            Invoked="LaunchIStorageItemRequested2"
+                                            CommandParameter="{x:Bind ExternalPath}">
+                                            <muxc:SwipeItem.IconSource>
+                                                <muxc:FontIconSource Glyph="&#xE8DA;"/>
+                                            </muxc:SwipeItem.IconSource>
+                                        </muxc:SwipeItem>
+                                    </muxc:SwipeItems>
+                                </muxc:SwipeControl.LeftItems>
+                                <muxc:SwipeControl.RightItems>
+                                    <muxc:SwipeItems Mode="Reveal">
+                                        <muxc:SwipeItem x:Uid="Remove"
+                                            Invoked="RemovePackageRequested2"
+                                            CommandParameter="{x:Bind PackageFullName}"
+                                            Background="Red" Foreground="White">
+                                            <muxc:SwipeItem.IconSource>
+                                                <muxc:FontIconSource Glyph="&#xE738;"/>
+                                            </muxc:SwipeItem.IconSource>
+                                        </muxc:SwipeItem>
+                                    </muxc:SwipeItems>
+                                </muxc:SwipeControl.RightItems>
+                                <muxc:SwipeControl.Transitions>
                                     <EntranceThemeTransition FromVerticalOffset="100" IsStaggeringEnabled="True"/>
-                                </muxc:Expander.Transitions>
-                            </muxc:Expander>
+                                </muxc:SwipeControl.Transitions>
+                            </muxc:SwipeControl>
                         </DataTemplate>
                     </muxc:ItemsRepeater.ItemTemplate>
                     <muxc:ItemsRepeater.Layout>

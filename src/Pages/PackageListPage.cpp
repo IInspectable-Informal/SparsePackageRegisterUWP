@@ -76,17 +76,35 @@ namespace winrt::SparsePackageManager::Pages::implementation
     {
         auto control = sender.as<MenuFlyoutItem>();
         control.IsEnabled(false);
-        auto obj = control.Tag();
-        auto iids = get_interfaces(obj);
-        if (std::find(iids.begin(), iids.end(), guid_of<IStorageFile>()) != iids.end())
-        { co_await Launcher::LaunchFileAsync(obj.as<StorageFile>(), options); }
-        else { co_await Launcher::LaunchFolderPathAsync(obj.as<hstring>()); }
+        co_await LaunchIStorageItemRequestedImplAsync(control.Tag());
         control.IsEnabled(true);
     }
 
     fire_and_forget PackageListPage::RemovePackageRequested(IInspectable const& sender, RoutedEventArgs const&)
     {
-        auto pkgFullName = sender.as<FrameworkElement>().Tag().as<hstring>();
+        auto control = sender.as<MenuFlyoutItem>();
+        control.IsEnabled(false);
+        co_await RemovePackageRequestedImplAsync(control.Tag().as<hstring>());
+        control.IsEnabled(true);
+    }
+
+    fire_and_forget PackageListPage::LaunchIStorageItemRequested2(muxc::SwipeItem const& sender, muxc::SwipeItemInvokedEventArgs const&)
+    { co_await LaunchIStorageItemRequestedImplAsync(sender.CommandParameter()); }
+
+    fire_and_forget PackageListPage::RemovePackageRequested2(muxc::SwipeItem const& sender, muxc::SwipeItemInvokedEventArgs const&)
+    { co_await RemovePackageRequestedImplAsync(sender.CommandParameter().as<hstring>()); }
+
+    //Private Functions
+    IAsyncAction PackageListPage::LaunchIStorageItemRequestedImplAsync(IInspectable const& obj)
+    {
+        auto iids = get_interfaces(obj);
+        if (std::find(iids.begin(), iids.end(), guid_of<IStorageFile>()) != iids.end())
+        { co_await Launcher::LaunchFileAsync(obj.as<StorageFile>(), options); }
+        else { co_await Launcher::LaunchFolderPathAsync(obj.as<hstring>()); }
+    }
+
+    IAsyncAction PackageListPage::RemovePackageRequestedImplAsync(hstring const& pkgFullName)
+    {
         auto item = locald::TaskInfo::CreateInstance(pkgFullName);
         if (item)
         {

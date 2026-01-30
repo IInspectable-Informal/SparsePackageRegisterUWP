@@ -36,7 +36,11 @@ namespace winrt::SparsePackageManager::Pages::implementation
     }
 
     void TaskListPage::RemoveItemRequested(muxc::SwipeItem const& sender, muxc::SwipeItemInvokedEventArgs const&)
-    { sender.CommandParameter().as<locald::TaskInfo>().RemovalCallback()(); }
+    {
+        auto taskInfo = sender.CommandParameter().as<locald::TaskInfo>();
+        if (taskInfo.State() != locald::TaskState::Working)
+        { taskInfo.RemovalCallback()(); }
+    }
 
     //ITypeProvider
     TypeName TaskListPage::Type()
